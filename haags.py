@@ -8,6 +8,51 @@ import attr
 
 
 #
+# Letter case
+#
+
+def apply_case_hack(s):
+    # Hacky unicode 'ij' ligature
+    return s.replace('ij', 'ĳ').replace('IJ', 'Ĳ')
+
+
+def undo_case_hack(s):
+    return s.replace('ĳ', 'ij').replace('Ĳ', 'IJ')
+
+
+def detect_case(s):
+    s = apply_case_hack(s)
+    if not s:
+        case = 'other'
+    elif s == s.upper():
+        case = 'upper'
+    elif s == s.lower():
+        case = 'lower'
+    elif s[0].isupper() and s[1:] == s[1:].lower():
+        case = 'sentence'
+    elif s == s.title():
+        case = 'title'
+    else:
+        case = 'other'
+    return case
+
+
+def recase(s, case):
+    """Change letter case of a string."""
+    s = apply_case_hack(s)
+    if case == 'lower':
+        s = s.lower()
+    elif case == 'upper':
+        s = s.upper()
+    elif case == 'sentence':
+        s = s[0].upper() + s[1:].lower()
+    elif case == 'title':
+        s = s.title()
+    s = undo_case_hack(s)
+    return s
+
+
+#
 # Tokenisation
 #
 
@@ -29,19 +74,6 @@ PUNCTUATION_CHARS = (
     "\"'“”‘’„‚"  # quotation marks
     "&/")  # misc
 PUNCTUATION_RE = re.compile(r'([{}]+)'.format(re.escape(PUNCTUATION_CHARS)))
-
-
-def detect_case(s):
-    if s == s.upper():
-        return 'upper'
-    elif s == s.lower():
-        return 'lower'
-    elif s == s.title():
-        return 'title'
-    elif s.startswith('IJ') and s[2:] == s[2:].lower():
-        # e.g. IJsland
-        return 'title'
-    return 'other'
 
 
 def is_regular_word(s):
@@ -188,8 +220,8 @@ def apply_contractions(tokens):
             replacement = CONTRACTIONS_BY_LENGTH[size].get(lookup)
             if not replacement:
                 continue
-            replacement_token = Token(replacement, 'translated')
-            tokens[m.start():m.end()] = [replacement_token]
+            replacement = recase(replacement, tokens[m.start()].case)
+            tokens[m.start():m.end()] = [Token(replacement, 'translated')]
             types_str = make_token_type_string(tokens)  # refresh
 
     # Remove whitespace wrapping.

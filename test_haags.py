@@ -17,6 +17,20 @@ def read_sample_file(fp):
     return pairs
 
 
+def test_letter_case():
+    assert haags.detect_case('lekker') == 'lower'
+    assert haags.detect_case('LEKKER') == 'upper'
+    assert haags.detect_case('Haags') == 'sentence'
+    assert haags.detect_case('IJsland is mooi') == 'sentence'
+    assert haags.detect_case('Dit Is Niet Gangbaar.') == 'title'
+    assert haags.detect_case('IJsland Title Case IJsland.') == 'title'
+    assert haags.detect_case('BrEeZâH') == 'other'
+
+    assert haags.recase('lekker', 'upper') == 'LEKKER'
+    assert haags.recase('lekKER', 'lower') == 'lekker'
+    assert haags.recase('ijsland', 'title') == 'IJsland'
+
+
 def test_tokenize():
     input = "'t duurde 3,14 lange,    bange dagen."
     tokens = list(haags.tokenize(input))
