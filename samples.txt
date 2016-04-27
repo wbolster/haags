@@ -1,0 +1,146 @@
+#
+# sample texts
+#
+# sources:
+# - groen-geil boekje
+# - wikipedia
+#
+
+#
+# klinkers
+#
+
+# ei en ij worden è
+Die ongein kan wel waar zijn, maar je blijft wel even mooi van mijn lijf, geil wijf.
+Die ongèn ken wel waah zèn, maar je blèf wel effe maui vamme lèf, gèl wèf.
+
+# lange o wordt au
+mooie grote klootviool
+mauie graute klautviaul
+
+# au en ou worden âh
+ik houd van jou, gouden vrouw; voor jou val ik flauw van een flatgebouw
+ik hâh van jâh, gâhwe vrâh; voâh jâh vallik flâh van een fletgebâh
+
+# ui wordt ùi
+je ruikt als een ui in de rui
+je rùik as 'n ùi in de rùi
+
+# eu wordt ui
+zal ik eens een paar deuken in je neus beuken?
+sallekes 'n paah duike ijje nuis buike?
+
+# r na eu? dan blijft de ui een eu
+leuke kleur heeft je scheur, maar jammer van die meur
+lùike kleuâh heb je scheuâh, maah jammâh van die meuâh
+
+# lange e wordt ei
+van die hete saté zat ik een uur of twee met m'n reet op de plee aan de diarree
+van die heite satei zat ik 'n uâh of twei memme reit op de plei an de diarei
+
+# ua wordt uwa
+menstruatie is een bloederige situatie
+menstruwasie is 'n bloederige situwasie
+
+# lange a blijft een lange a, tenzij gevolgd door r
+ben je kaal? naar maar waar
+kaal? naah maah waah
+
+# lange u blijft een lange u (behalve in uitzonderingsgevallen)
+
+
+#
+# klinkers
+#
+
+
+#
+# lidwoorden
+#
+
+# het wordt het, ut of 't
+# een wordt een, un of 'n
+# contracties vormen uitzonderingen
+
+
+#
+# contracties
+#
+
+ken ik
+kennik
+
+mag het
+maggut
+
+aan het
+annut
+
+van het
+vannut
+
+als een
+assun
+
+ik dacht het
+dachut
+
+van jou
+vajjâh
+
+al een
+alle
+
+kijk dan
+kèktan
+
+
+#
+# inheemse woorden
+#
+
+euro
+pleuro
+
+
+
+#
+# voorbeeld van wikipedia
+#
+
+Het Haags is het stadsdialect dat door de autochtone "volksklasse" van Den Haag wordt gesproken.
+'t Haags isset stasdiâhlek dat doâh de âhtogtaune "volleksklasse" van De Haag wogt gesprauke.
+
+Het behoort tot de Zuid-Hollandse dialecten.
+Et behoâht tot de Zùid-Hollandse dialekte.
+
+Als typisch randstedelijk dialect heeft het een grammatica en syntaxis die nauwelijks afwijken van het Standaardnederlands.
+As typies randsteidelek dialek heb et een grammatikaah en syntaksis die nâhweleks afwèke van et Standaagdneidâhlands.
+
+Het verschilt echter aanzienlijk meer van deze taalvorm dan het Rotterdams of het Leids.
+Et veschilt echtâh anzienlek meâh van deize taalvorrem dan et Rottâhdams of et Lèds.
+
+
+#
+# getallen
+#
+
+het is 2 uur
+'t is 2 uâh
+
+Pi is ongeveer 3.14.
+Pi is ongeveâh 3.14.
+
+4e keer
+4e keâh
+
+tot drie: 1, 2, 3.
+tot drie: 1, 2, 3.
+
+
+#
+# overig
+#
+
+'t is 'n mooie dag.
+'t is 'n mauie dag.
