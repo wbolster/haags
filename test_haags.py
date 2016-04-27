@@ -2,6 +2,8 @@
 Test module.
 """
 
+from pprint import pprint
+
 import haags
 
 
@@ -15,13 +17,32 @@ def read_sample_file(fp):
     return pairs
 
 
+def test_tokenize():
+    input = "'t duurde 3,14 lange,    bange dagen."
+    tokens = list(haags.tokenize(input))
+    pprint(tokens)
+    assert ''.join(t.value for t in tokens) == input
+    assert len(tokens) == 13
+    assert tokens[0].value == "'t"
+    assert tokens[1].type == "whitespace"
+    assert tokens[2].value == "duurde"
+    assert tokens[4].type == "number"
+    assert tokens[4].value == "3,14"
+    assert tokens[7].value == ","
+    assert tokens[7].type == "punctuation"
+
+    input = (
+        "De informatie is te vinden op "
+        "http://example.org/een/of/andere/pagina.html.")
+    pprint(list(haags.tokenize(input)))
+
+
 def test_haags():
-    from pprint import pprint
     with open('samples.txt') as fp:
         pairs = read_sample_file(fp)
     for dutch, translation in pairs:
-        tokens = list(haags.tokenize(dutch))
         print(dutch)
-        pprint(tokens)
+        print(translation)
+        translated = haags.translate(dutch)
+        print(translated)
         print()
-        assert ''.join(t.value for t in tokens) == dutch

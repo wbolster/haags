@@ -16,9 +16,9 @@ WHITESPACE_RE = re.compile(r'(\s+)')
 # have a word character directly after it (e.g. does not match "123abc").
 NUMBER_RE = re.compile(r'(\d+(?:[,.]\d+)*)(?!\w\s)')
 
-# Matches "words", including the shorthands "'t" and "'n".
+# Matches "words", including the shorthands "'n", "'r" , and "'t".
 # Matches may include digits and underscores.
-WORD_RE = re.compile(r"([\w-]+|'n|'t)\b")
+WORD_RE = re.compile(r"([\w-]+|'[nrt])\b")
 
 # Matches punctuation characters that may occur in normal text.
 PUNCTUATION_CHARS = (
@@ -39,7 +39,7 @@ def detect_case(s):
     elif s.startswith('IJ') and s[2:] == s[2:].lower():
         # e.g. IJsland
         return 'title'
-    return 'mixed'
+    return 'other'
 
 
 def is_regular_word(s):
@@ -50,6 +50,8 @@ def is_regular_word(s):
 
 @attr.s(init=False)
 class Token():
+    TYPES = {'word', 'space', 'punctuation', 'number', 'other'}
+
     value = attr.ib()
     type = attr.ib()
     case = attr.ib(repr=False)
@@ -58,6 +60,7 @@ class Token():
     def __init__(self, value, type):
         self.value = value
         self.value_lower = value.lower()
+        assert type in self.TYPES
         self.type = type
         self.case = detect_case(value) if self.type == 'word' else None
 
@@ -92,4 +95,5 @@ def tokenize(s):
 
 
 def translate(s):
-    ...
+    tokens = list(tokenize(s))
+    print(tokens)
