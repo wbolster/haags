@@ -37,6 +37,21 @@ def test_tokenize():
     pprint(list(haags.tokenize(input)))
 
 
+def test_contraction():
+    input = """
+        Hallo, ken ik jou? Ik dacht het niet.
+        WAT KAN MIJ HET ROTTEN? Ik houd van jou.
+    """
+    expected = """
+        Hallo, kennik jou? Ik dachutnie.
+        WAT KAN MÈNNUT ROTTEN? Ik houd vajjâh.
+    """
+    print(input)
+    translated = haags.translate(input)
+    print(translated)
+    assert translated == expected
+
+
 def test_haags():
     with open('samples.txt') as fp:
         pairs = read_sample_file(fp)

@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import collections
+import itertools
 import re
 
 import attr
@@ -50,7 +52,7 @@ def is_regular_word(s):
 
 @attr.s(init=False)
 class Token():
-    TYPES = {'word', 'space', 'punctuation', 'number', 'other'}
+    TYPES = {'word', 'whitespace', 'punctuation', 'number', 'other', 'translated'}
 
     value = attr.ib()
     type = attr.ib()
@@ -65,9 +67,12 @@ class Token():
         self.case = detect_case(value) if self.type == 'word' else None
 
 
+WHITESPACE_TOKEN = Token(' ', 'whitespace')
+
+
 def tokenize(s):
     regexes_with_token_types = [  # This is an ordered list.
-        (WHITESPACE_RE, 'space'),
+        (WHITESPACE_RE, 'whitespace'),
         (NUMBER_RE, 'number'),
         (WORD_RE, 'word'),
         (PUNCTUATION_RE, 'punctuation')]
@@ -94,6 +99,112 @@ def tokenize(s):
             pos += 1   # FIXME
 
 
+#
+# Contractions
+#
+
+CONTRACTIONS = {
+    "aan het": "annut",
+    "al een": "alle",
+    "als een": "assun",
+    "dacht ik": "dachik",
+    "dacht het niet": "dachutnie",
+    "dat ik": "dattik",
+    "heb ik": "heppik",
+    "ik dacht het niet": "ik dachutnie",
+    "ik dacht het": "dachut",
+    "ken ik": "kennik",
+    "kijk dan": "kèktan",
+    "mag het": "maggut",
+    "mij het": "mènnut",
+    "met een": "mettun",
+    "op een": "oppun",
+    "niet dan": "niettan",
+    "van het": "vannut",
+    "van hetzelfde": "vannutzelfde",
+    "van jou": "vajjâh",
+}
+CONTRACTIONS_BY_LENGTH = collections.defaultdict(dict)
+for dutch, haags in CONTRACTIONS.items():
+    key = len(dutch.split())
+    CONTRACTIONS_BY_LENGTH[key][dutch] = haags
+
+
+def words_from_tokens(tokens, offset, n):
+    """
+    Obtain `n` words from `tokens` as a single string, starting at `offset`.
+    """
+    g = (t.value_lower for t in tokens[offset:] if t.type == 'word')
+    return ' '.join(itertools.islice(g, n))
+
+
+def make_token_type_string(tokens, pad_with_spaces=True):
+    # Make a string with one character per token, which indicates the
+    # token type. "Hallo, wereld!" becomes "w, w," (word, punctuation,
+    # space, ...).
+    mapping = {
+        'word': 'w',
+        'whitespace': ' ',
+        'punctuation': ',',
+        'number': '1',
+        'other': '_',
+        'translated': 't',
+    }
+    s = ''.join(mapping[t.type] for t in tokens)
+    return s
+
+
+def apply_contractions(tokens):
+    # Contractions are found by looking for patterns in the list of
+    # tokens, and comparing these against lookup tables. For example,
+    # "word space word space word" is a candidate a 3 word contraction.
+    # To make this easier, transform the list of token into a simple
+    # string containing the token types, so that regular expressions can
+    # be used for matching.
+
+    tokens = tokens.copy()
+
+    # Add whitespace tokens at the beginning and end for easier
+    # matching. This means there is no special casing for matching at
+    # the start of the end of the token stream.
+    tokens = [WHITESPACE_TOKEN] + tokens + [WHITESPACE_TOKEN]
+
+    # Search for long matches first, e.g. 4 words, then 3 words, and so on.
+    items = sorted(CONTRACTIONS_BY_LENGTH.items(), reverse=True)
+
+    for size, contractions in items:
+        # Look for space separated words (e.g. "w w w)", followed by
+        # either whitespace or punctuation+whitespace.
+        types_str = make_token_type_string(tokens)
+        base_pattern = ' '.join(['w'] * size)
+        pattern = re.compile(r'{}(?= |, )'.format(base_pattern))
+        pos = 0
+        while True:
+            m = pattern.search(types_str, pos)
+            if m is None:
+                break
+            pos = m.start() + 1
+            lookup = words_from_tokens(tokens, m.start(), size)
+            replacement = CONTRACTIONS_BY_LENGTH[size].get(lookup)
+            if not replacement:
+                continue
+            replacement_token = Token(replacement, 'translated')
+            tokens[m.start():m.end()] = [replacement_token]
+            types_str = make_token_type_string(tokens)  # refresh
+
+    # Remove whitespace wrapping.
+    assert tokens[0] == WHITESPACE_TOKEN
+    assert tokens[-1] == WHITESPACE_TOKEN
+    tokens = tokens[1:-1]
+
+    return tokens
+
+
+#
+# Translation
+#
+
 def translate(s):
     tokens = list(tokenize(s))
-    print(tokens)
+    tokens = apply_contractions(tokens)
+    return ''.join(t.value for t in tokens)
