@@ -50,8 +50,20 @@ kaal? naah maah waah
 
 
 #
-# klinkers
+# medeklinkers
 #
+
+# de r na een korte klank wordt een g
+Barst! Krijg een vet hart, Martin!
+Bagst! Krèg 'n vet hagt, Magtin!
+
+# de r na een lange a wordt een h
+Op een ooievaar groeit geen haar, dat is naar maar wel waar.
+Op 'n auievaah groeit gein haah, dat's naah maah wel waah.
+
+# na overige klanken (a, e, i, o, u, eu, ie, oe) wordt de r een âh
+Door een kier in de deur van de bar rook ik de meur van goor, zuur bier.
+Doâh een kieâh in de deuâh van de bâh rauk ik de meuâh van goâh, zuâh bieâh.
 
 
 #
@@ -61,6 +73,38 @@ kaal? naah maah waah
 # het wordt het, ut of 't
 # een wordt een, un of 'n
 # contracties vormen uitzonderingen
+
+
+#
+# uitgangen
+#
+
+# -er wordt -âh
+lekker kabouter
+lekkâh kabâhtâh
+
+# -ig wordt -ag
+machtig tachtig rustig
+machtag tachtag rustag
+
+# -eer wordt -eâh
+zweer meneer meneertje weer een keer peer neer
+zweâh meneâh meneâhtsje weâh een keâh peâh neâh
+
+# -tie wordt -sie
+# -en wordt -e (alleen eind van woord)
+# -en mag ook -ûh aan einde van de zin
+
+# verkleinwoorden krijgen -ie
+bakje koffie
+bakkie koffie
+
+huisje boompje beestje
+hùissie baumpie beissie
+
+# verkleinwoorden op -tje mogen een tussen s; hoeft niet
+pilletjes gabbertje broertje
+pilletsjes gabbâhtsje broeâhtsje
 
 
 #

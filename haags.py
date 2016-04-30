@@ -5,6 +5,7 @@ import itertools
 import re
 
 import attr
+import pyphen
 
 
 #
@@ -234,10 +235,141 @@ def apply_contractions(tokens):
 
 
 #
-# Translation
+# Single word translation
+#
+
+hyphenation_dictionary = pyphen.Pyphen(lang='nl', left=1, right=1)
+
+
+def apply_single_words(tokens):
+    return [
+        translate_single_word_token(token) if token.type == 'word' else token
+        for token in tokens]
+
+
+def pairwise(iterable):  # from itertools recipes
+    a, b = itertools.tee(iterable)
+    next(b, None)
+    return zip(a, b)
+
+VOWELS = 'aeoui'
+
+
+def starts_with_vowel(s):
+    return s[0] in VOWELS
+
+
+def ends_with_vowel(s):
+    return s[-1] in VOWELS or s.endswith('ey')
+
+
+SYLLABLES = {
+    "flat": "flet",
+}
+
+
+def translate_syllable(s):
+    translated = SYLLABLES.get(s)
+    if translated is not None:
+        return translated
+
+    # Vowels / klinkers.
+    # - ei en ij worden è
+    if 'ei' in s and not 'oei' in s:
+        s = s.replace('ei', 'è')
+    elif 'ij' in s:
+        # FIXME: niet voor -lijk en -lijkheid enz
+        s = s.replace('ij', 'è')
+    # - lange o wordt au
+    # - TODO er zijn er meer lang
+    elif 'oo' in s and not s.endswith('oor'):
+        s = s.replace('oo', 'au')
+    elif s.endswith('o'):
+        s = s.replace('o', 'au')
+    # - au en ou worden âh
+    # - -ouw/-auw verliezen de -w
+    elif 'au' in s:
+        s = s.replace('auw', 'âh')
+        s = s.replace('au', 'âh')
+    elif 'ou' in s:
+        s = s.replace('oud', 'âh')
+        s = s.replace('ouw', 'âh')
+        s = s.replace('ou', 'âh')
+    # ui wordt ùi
+    elif 'ui' in s:
+        s = s.replace('ui', 'ùi')
+    # eu wordt ui, behalve als een r volgt
+    elif 'eu' in s and 'eur' not in s:
+        s = s.replace('eu', 'ui')
+    # - lange e wordt ei
+    #   TODO: er zijn nog meer lange e, maar om dat vast te stellen heb
+    #   je de volgende lettergreep nodig
+    elif 'ee' in s and not s.endswith('eer'):
+        s = s.replace('ee', 'ei')
+    elif 'é' in s:
+        s = s.replace('é', 'ei')
+    # TODO: ua wordt uwa (crosses syllables)
+
+    # Consonants / medeklinkers.
+    # - TODO de r na een korte klank wordt een g
+    # - de r na een lange a wordt een h
+    # - na overige klanken wordt de r een âh
+    # - uitgang -eer wordt -eâh
+    if s.endswith('aar'):
+        s = s.replace('aar', 'aah')
+    elif s.endswith('ar'):
+        s = s.replace('ar', 'âh')
+    elif s.endswith('oor'):
+        s = s.replace('oor', 'oâh')
+    elif s.endswith('eer'):
+        s = s.replace('eer', 'eâh')
+    elif s.endswith('ier'):
+        s = s.replace('ier', 'ieâh')
+    elif s.endswith('er'):
+        pass
+    elif s.endswith('r'):
+        s = s[:-1] + 'âh'
+
+    # FIXME: alleen aan einde woord?
+    # -ft wordt -f
+    # -kt wordt -k
+    if s.endswith('ft'):
+        s = s[:-1]
+    elif s.endswith('kt'):
+        s = s[:-1]
+
+    return s
+
+
+WORDS = {
+    "aan": "an",
+    "een": "'n",
+    "even": "effe",
+    "het": "'t",
+}
+
+
+def translate_single_word_token(token):
+    translated = WORDS.get(token.value_lower)
+    if translated is None:
+        # Naive assumption: hyphenation is the same as syllable splitting.
+        positions = [0]
+        positions.extend(hyphenation_dictionary.positions(token.value))
+        positions.append(None)
+        assert len(positions) == len(set(positions))  # all unique
+        syllables = [
+            token.value[start:stop]
+            for start, stop in pairwise(positions)]
+        translated = ''.join(translate_syllable(s) for s in syllables)
+    return Token(recase(translated, token.case), 'word')
+
+
+#
+# Main API
 #
 
 def translate(s):
     tokens = list(tokenize(s))
     tokens = apply_contractions(tokens)
+    tokens = apply_single_words(tokens)
     return ''.join(t.value for t in tokens)
