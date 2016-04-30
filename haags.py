@@ -135,7 +135,7 @@ def tokenize(s):
 # Contractions
 #
 
-CONTRACTIONS = {
+ALL_CONTRACTIONS = {
     "aan het": "annut",
     "al een": "alle",
     "als een": "assun",
@@ -156,10 +156,10 @@ CONTRACTIONS = {
     "van hetzelfde": "vannutzelfde",
     "van jou": "vajjâh",
 }
-CONTRACTIONS_BY_LENGTH = collections.defaultdict(dict)
-for dutch, haags in CONTRACTIONS.items():
+ALL_CONTRACTIONS_BY_SIZE = collections.defaultdict(dict)
+for dutch, haags in ALL_CONTRACTIONS.items():
     key = len(dutch.split())
-    CONTRACTIONS_BY_LENGTH[key][dutch] = haags
+    ALL_CONTRACTIONS_BY_SIZE[key][dutch] = haags
 
 
 def words_from_tokens(tokens, offset, n):
@@ -202,7 +202,7 @@ def apply_contractions(tokens):
     tokens = [WHITESPACE_TOKEN] + tokens + [WHITESPACE_TOKEN]
 
     # Search for long matches first, e.g. 4 words, then 3 words, and so on.
-    items = sorted(CONTRACTIONS_BY_LENGTH.items(), reverse=True)
+    items = sorted(ALL_CONTRACTIONS_BY_SIZE.items(), reverse=True)
 
     for size, contractions in items:
         # Look for space separated words (e.g. "w w w)", followed by
@@ -217,7 +217,7 @@ def apply_contractions(tokens):
                 break
             pos = m.start() + 1
             lookup = words_from_tokens(tokens, m.start(), size)
-            replacement = CONTRACTIONS_BY_LENGTH[size].get(lookup)
+            replacement = contractions.get(lookup)
             if not replacement:
                 continue
             replacement = recase(replacement, tokens[m.start()].case)
