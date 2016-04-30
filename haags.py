@@ -139,8 +139,8 @@ ALL_CONTRACTIONS = {
     "aan het": "annut",
     "al een": "alle",
     "als een": "assun",
-    "dacht ik": "dachik",
     "dacht het niet": "dachutnie",
+    "dacht ik": "dachik",
     "dat ik": "dattik",
     "heb ik": "heppik",
     "ik dacht het niet": "ik dachutnie",
@@ -148,13 +148,14 @@ ALL_CONTRACTIONS = {
     "ken ik": "kennik",
     "kijk dan": "kèktan",
     "mag het": "maggut",
-    "mij het": "mènnut",
     "met een": "mettun",
-    "op een": "oppun",
+    "mij het": "mènnut",
     "niet dan": "niettan",
+    "op een": "oppun",
     "van het": "vannut",
     "van hetzelfde": "vannutzelfde",
     "van jou": "vajjâh",
+    "van mijn": "vamme",
 }
 ALL_CONTRACTIONS_BY_SIZE = collections.defaultdict(dict)
 for dutch, haags in ALL_CONTRACTIONS.items():
