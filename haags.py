@@ -244,32 +244,79 @@ def apply_contractions(tokens):
 
 
 #
-# Single word translation
+# Syllables
 #
 
-hyphenation_dictionary = pyphen.Pyphen(lang='nl', left=1, right=1)
+# Vowels can be written in various ways. See
+# https://nl.wikipedia.org/wiki/Klinker_(klank)
+GEDEKTE_KLINKERS = ['a', 'e', 'i', 'o', 'u']
+VRIJE_KLINKERS = ['aa', 'ee', 'ie', 'oo', 'uu', 'eu', 'oe']
+ZUIVERE_TWEEKLANKEN = ['ei', 'ij', 'ui', 'ou', 'au']
+ONECHTE_TWEEKLANKEN = ['ai', 'oi', 'aai', 'ooi', 'oe', 'eeuw', 'ieuw']
+
+# Alternate spellings, mostly in loan words and for
+# disambiguating clashing vowels (klinkerbotsing).
+GEDEKTE_KLINKERS += [
+    'è',  # e.g. scène, barrière
+    'ë',  # e.g. België, patiënt, skiën
+    'ï',  # e.g. beïnvloeden
+]
+ZUIVERE_TWEEKLANKEN += [
+    'auw',  # e.g. rauw
+    'ouw',  # e.g. rouw
+]
+VRIJE_KLINKERS += [
+    'é',  # e.g. coupé
+    'éé',  # e.g. één
+    'ée',  # e.g. brûlée
+    'ü',  # e.g. bühne, continuüm, reünie
+]
+# TODO: ä, e.g. hutenkäse, knäckebröd, salonfähig
+# TODO: ö, e.g. coördinator, röntgen, zoölogie
+# TODO: y, ey, e.g. baby, cowboy, hockey, systeem, but not mayonaise
+# TODO: sjwa 'e', e.g. de, lade
+
+VOWELS = sorted(
+    ONECHTE_TWEEKLANKEN + ZUIVERE_TWEEKLANKEN +
+    VRIJE_KLINKERS + GEDEKTE_KLINKERS,
+    key=len, reverse=True)
+CONSONANTS = 'bcçdfghjklmnpqrstvwxz'
 
 
-def apply_single_words(tokens):
-    return [
-        translate_single_word_token(token) if token.type == 'word' else token
-        for token in tokens]
+@attr.s(init=False)
+class Syllable():
+    # See:
+    # - https://nl.wikipedia.org/wiki/Lettergreep
+    # - https://en.wikipedia.org/wiki/Syllable
+    value = attr.ib()
+    onset = attr.ib()
+    nucleus = attr.ib()
+    coda = attr.ib()
+    rime = attr.ib()
+    open = attr.ib()
+    closed = attr.ib(repr=False)
 
+    def __init__(self, value):
+        self.value = value
 
-def pairwise(iterable):  # from itertools recipes
-    a, b = itertools.tee(iterable)
-    next(b, None)
-    return zip(a, b)
+        # Split the syllable into its onset, nucleus, and coda. Each
+        # syllable is supposed to contain a vowel which forms the
+        # nucleus, optionally preceded by an onset, and optionally
+        # followed by a coda.
+        # https://en.wikipedia.org/wiki/Syllable#Components
+        for vowel in VOWELS:
+            if vowel not in value:
+                continue
+            self.onset, self.nucleus, self.coda = value.partition(vowel)
+            break
+        else:
+            # This is not a normal syllable. TODO: do something more
+            # sensible than this for cases that occur in normal text.
+            self.onset, self.nucleus, self.coda = '', value, ''
 
-VOWELS = 'aeoui'
-
-
-def starts_with_vowel(s):
-    return s[0] in VOWELS
-
-
-def ends_with_vowel(s):
-    return s[-1] in VOWELS or s.endswith('ey')
+        self.rime = self.nucleus + self.coda
+        self.open = False if self.coda else True
+        self.closed = not self.open
 
 
 SYLLABLES = {
@@ -278,9 +325,11 @@ SYLLABLES = {
 
 
 def translate_syllable(s):
-    translated = SYLLABLES.get(s)
+    translated = SYLLABLES.get(s.value)
     if translated is not None:
         return translated
+
+    s = s.value  # FIXME
 
     # Vowels / klinkers.
     # - ei en ij worden è
@@ -350,12 +399,25 @@ def translate_syllable(s):
     return s
 
 
+#
+# Single word translation
+#
+
 WORDS = {
     "aan": "an",
     "een": "'n",
     "even": "effe",
     "het": "'t",
 }
+
+
+def pairwise(iterable):  # from itertools recipes
+    a, b = itertools.tee(iterable)
+    next(b, None)
+    return zip(a, b)
+
+
+hyphenation_dictionary = pyphen.Pyphen(lang='nl', left=1, right=1)
 
 
 def translate_single_word_token(token):
@@ -367,10 +429,16 @@ def translate_single_word_token(token):
         positions.append(None)
         assert len(positions) == len(set(positions))  # all unique
         syllables = [
-            token.value_lower[start:stop]
+            Syllable(token.value_lower[start:stop])
             for start, stop in pairwise(positions)]
         translated = ''.join(translate_syllable(s) for s in syllables)
     return Token(recase(translated, token.case), 'word')
+
+
+def apply_single_words(tokens):
+    return [
+        translate_single_word_token(token) if token.type == 'word' else token
+        for token in tokens]
 
 
 #
