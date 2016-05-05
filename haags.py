@@ -299,7 +299,6 @@ class Syllable():
     coda = attr.ib()
     rime = attr.ib()
     open = attr.ib()
-    closed = attr.ib(repr=False)
 
     def __init__(self, value):
         self.value = value
@@ -321,7 +320,6 @@ class Syllable():
 
         self.rime = self.nucleus + self.coda
         self.open = False if self.coda else True
-        self.closed = not self.open
 
 
 SYLLABLES = {
