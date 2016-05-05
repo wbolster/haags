@@ -67,6 +67,120 @@ Doâh een kieâh in de deuâh van de bâh rauk ik de meuâh van goâh, zuâh bie
 
 
 #
+# extra lettergreep voor -l + medeklinker en -r + medeklinker
+#
+
+# -ld
+held
+held
+
+# -lf
+zelf
+zelluf
+
+# -lg
+velg
+vellug
+
+# -lk
+volk
+volluk
+volks
+volluks
+melk
+melluk
+melkt
+mellukt
+
+# -lm
+film
+fillum
+kalm
+kallum
+
+# -lp
+help
+hellup
+
+# -ls
+vals
+vals
+
+# -lt
+valt
+valt
+
+# -rd (?)
+hard
+hard
+haard
+haard
+
+# -rf
+nerf
+nerruf
+herfst
+herrufs
+
+# -rg
+berg
+berrug
+zorg
+zorrug
+burg
+burrag
+wurgt
+wurrugt
+
+# -rk
+sterk
+sterrek
+sterks
+sterreks
+sterkst
+sterreks
+sterkte
+sterrekte
+
+# -rm
+arm
+arrum
+
+# -rn
+# lantaarn (?)
+kern
+kerrun
+urn
+urrun
+
+# -rp
+dorp
+durrup
+terp
+terrup
+worp
+worrup
+
+# -rs
+kers
+kers
+worst
+wogs
+
+# -rt
+hart
+hagt
+scheurt
+scheâht
+viert
+vieâht
+
+# -rw
+murw
+murw
+
+
+#
 # lidwoorden
 #
 

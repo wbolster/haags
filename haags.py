@@ -329,11 +329,12 @@ SYLLABLES = {
 }
 
 
-def translate_syllable(syl):
-    translated = SYLLABLES.get(syl.value)
+def translate_syllable(s):
+    translated = SYLLABLES.get(s)
     if translated is not None:
         return translated
 
+    syl = Syllable(s)
     new = attr.assoc(syl)
 
     # Vowels / klinkers.
@@ -407,8 +408,24 @@ def translate_syllable(syl):
         # e.g. bakt (bak), respect (respek)
         new.coda = 'k'
 
-    # The instance itself is useless since only a few attributes make
-    # sense at this point, so simply return a string.
+    # Woorden eindigend op -l + medeklinker of -r + medeklinker krijgen
+    # soms een extra lettergreep: medeklinkerverdubbeling en een
+    # tussen-a, tussen-e, of-u.
+    elif syl.rime == 'urg':
+        # e.g. voorburg (voâhburrag)
+        new.coda = 'rrag' + syl.coda[3:]
+    elif syl.coda.startswith(('l', 'r')) and len(syl.coda) > 1:
+        if syl.coda.startswith((
+                'lf', 'lg', 'lk', 'lm', 'lp',
+                'rf', 'rg', 'rm', 'rn', 'rp')):
+            # e.g. volk (volluk), zorg (zorrug)
+            new.coda = syl.coda[0] + syl.coda[0] + 'u' + syl.coda[1:]
+        elif syl.coda.startswith('rk'):
+            # e.g. sterkte (sterrekte)
+            new.coda = syl.coda[0] + syl.coda[0] + 'e' + syl.coda[1:]
+
+    # The new instance itself is useless since only a few attributes
+    # make sense at this point, so simply return a string.
     return new.onset + new.nucleus + new.coda
 
 
@@ -442,10 +459,10 @@ def translate_single_word_token(token):
         positions.extend(hyphenation_dictionary.positions(token.value_lower))
         positions.append(None)
         assert len(positions) == len(set(positions))  # all unique
-        syllables = [
-            Syllable(token.value_lower[start:stop])
+        chunks = [
+            token.value_lower[start:stop]
             for start, stop in pairwise(positions)]
-        translated = ''.join(translate_syllable(s) for s in syllables)
+        translated = ''.join(translate_syllable(c) for c in chunks)
     return Token(recase(translated, token.case), 'word')
 
 
