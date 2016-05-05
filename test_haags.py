@@ -70,8 +70,8 @@ def test_haags():
     with open('samples.txt') as fp:
         pairs = read_sample_file(fp)
     for dutch, translation in pairs:
+        translated = haags.translate(dutch)
         print(dutch)
         print(translation)
-        translated = haags.translate(dutch)
         print(translated)
         print()

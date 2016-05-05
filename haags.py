@@ -257,6 +257,7 @@ ONECHTE_TWEEKLANKEN = ['ai', 'oi', 'aai', 'ooi', 'oe', 'eeuw', 'ieuw']
 # Alternate spellings, mostly in loan words and for
 # disambiguating clashing vowels (klinkerbotsing).
 GEDEKTE_KLINKERS += [
+    'ah',  # e.g. ayatollah, bah,
     'è',  # e.g. scène, barrière
     'ë',  # e.g. België, patiënt, skiën
     'ï',  # e.g. beïnvloeden
@@ -324,48 +325,45 @@ SYLLABLES = {
 }
 
 
-def translate_syllable(s):
-    translated = SYLLABLES.get(s.value)
+def translate_syllable(syl):
+    translated = SYLLABLES.get(syl.value)
     if translated is not None:
         return translated
 
-    s = s.value  # FIXME
+    new = attr.assoc(syl)
 
     # Vowels / klinkers.
     # - ei en ij worden è
-    if 'ei' in s and 'oei' not in s:
-        s = s.replace('ei', 'è')
-    elif 'ij' in s:
-        # FIXME: niet voor -lijk en -lijkheid enz
-        s = s.replace('ij', 'è')
+    if syl.nucleus in ('ei', 'ij'):
+        # FIXME: niet voor -lijk en -lijkheid, wel voor 'lijk'
+        new.nucleus = 'è'
     # - lange o wordt au
-    # - TODO er zijn er meer lang
-    elif 'oo' in s and not s.endswith('oor'):
-        s = s.replace('oo', 'au')
-    elif s.endswith('o'):
-        s = s.replace('o', 'au')
+    elif syl.nucleus == 'oo' and syl.rime is not 'oor':
+        new.nucleus = 'au'
+    elif syl.nucleus == 'o' and syl.open:
+        new.nucleus = 'au'
     # - au en ou worden âh
     # - -ouw/-auw verliezen de -w
-    elif 'au' in s:
-        s = s.replace('auw', 'âh')
-        s = s.replace('au', 'âh')
-    elif 'ou' in s:
-        s = s.replace('oud', 'âh')
-        s = s.replace('ouw', 'âh')
-        s = s.replace('ou', 'âh')
-    # ui wordt ùi
-    elif 'ui' in s:
-        s = s.replace('ui', 'ùi')
+    # - -oud verliest de -d
+    elif syl.rime == 'oud':
+        # e.g. goud
+        new.nucleus = 'âh'
+        new.coda = ''
+    elif syl.nucleus in ('au', 'auw', 'ou', 'ouw'):
+        # e.g. saus, rauw, nou, jouw
+        new.nucleus = 'âh'
+    # - ui wordt ùi
+    elif syl.nucleus == 'ui':
+        # e.g. rui (rùik)
+        new.nucleus = 'ùi'
     # eu wordt ui, behalve als een r volgt
-    elif 'eu' in s and 'eur' not in s:
-        s = s.replace('eu', 'ui')
+    elif syl.nucleus == 'eu' and not syl.coda.startswith('r'):
+        new.nucleus = 'ui'
     # - lange e wordt ei
     #   TODO: er zijn nog meer lange e, maar om dat vast te stellen heb
     #   je de volgende lettergreep nodig
-    elif 'ee' in s and not s.endswith('eer'):
-        s = s.replace('ee', 'ei')
-    elif 'é' in s:
-        s = s.replace('é', 'ei')
+    elif syl.nucleus in ('ee', 'é', 'éé', 'ée') and syl.rime != 'eer':
+        new.nucleus = 'ei'
     # TODO: ua wordt uwa (crosses syllables)
 
     # Consonants / medeklinkers.
@@ -373,30 +371,41 @@ def translate_syllable(s):
     # - de r na een lange a wordt een h
     # - na overige klanken wordt de r een âh
     # - uitgang -eer wordt -eâh
-    if s.endswith('aar'):
-        s = s.replace('aar', 'aah')
-    elif s.endswith('ar'):
-        s = s.replace('ar', 'âh')
-    elif s.endswith('oor'):
-        s = s.replace('oor', 'oâh')
-    elif s.endswith('eer'):
-        s = s.replace('eer', 'eâh')
-    elif s.endswith('ier'):
-        s = s.replace('ier', 'ieâh')
-    elif s.endswith('er'):
-        pass
-    elif s.endswith('r'):
-        s = s[:-1] + 'âh'
+    # TODO: coda.startswith('r'), e.g. barst (bagst)
+    if syl.rime == 'aar':
+        # e.g. naar (naah)
+        new.coda = 'h'
+    elif syl.rime == 'ar':
+        # e.g. bar (bâh)
+        new.nucleus = 'âh'
+        new.coda = ''
+    elif syl.nucleus == 'oo' and syl.coda.startswith('r'):
+        # e.g. door (doâh)
+        new.nucleus = 'o'
+        new.coda = 'âh' + syl.coda[1:]
+    elif syl.rime == 'eer':
+        new.nucleus = 'e'
+        new.coda = 'âh'
+    elif syl.rime == 'ier':
+        new.nucleus = 'ie'
+        new.coda = 'âh'
+    elif syl.rime == 'er':
+        pass  # TODO
+    elif new.coda == 'r':
+        new.coda = 'âh'
 
     # FIXME: alleen aan einde woord?
     # -ft wordt -f
     # -kt wordt -k
-    if s.endswith('ft'):
-        s = s[:-1]
-    elif s.endswith('kt'):
-        s = s[:-1]
+    if syl.coda == 'ft':
+        new.coda = 'f'
+    elif syl.coda in ('kt', 'ct'):
+        # e.g. bakt (bak), respect (respek)
+        new.coda = 'k'
 
-    return s
+    # The instance itself is useless since only a few attributes make
+    # sense at this point, so simply return a string.
+    return new.onset + new.nucleus + new.coda
 
 
 #
@@ -407,6 +416,7 @@ WORDS = {
     "aan": "an",
     "een": "'n",
     "even": "effe",
+    "heeft": "heb",
     "het": "'t",
 }
 
