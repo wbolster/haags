@@ -11,6 +11,16 @@ Rueb.
 **DO NOT USE**: This code is pre-alpha quality, and should not be used
 by anyone but the author.
 
+TODO
+====
+
+* normaliseren van z'n -> zijn alvorens te vertalen
+* 'r 's 'n 't zijn woorden
+* speciaal token type voor quote chars?
+* contractions: require whitespace/punctuation before occurence in
+  addition to after occurence
+
+
 References
 ==========
 
