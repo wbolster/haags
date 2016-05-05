@@ -363,11 +363,11 @@ def translate_single_word_token(token):
     if translated is None:
         # Naive assumption: hyphenation is the same as syllable splitting.
         positions = [0]
-        positions.extend(hyphenation_dictionary.positions(token.value))
+        positions.extend(hyphenation_dictionary.positions(token.value_lower))
         positions.append(None)
         assert len(positions) == len(set(positions))  # all unique
         syllables = [
-            token.value[start:stop]
+            token.value_lower[start:stop]
             for start, stop in pairwise(positions)]
         translated = ''.join(translate_syllable(s) for s in syllables)
     return Token(recase(translated, token.case), 'word')
