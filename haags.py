@@ -327,12 +327,11 @@ SYLLABLES = {
 }
 
 
-def translate_syllable(s):
-    translated = SYLLABLES.get(s)
+def translate_syllable(syl):
+    translated = SYLLABLES.get(syl.value)
     if translated is not None:
         return translated
 
-    syl = Syllable(s)
     new = attr.assoc(syl)
 
     # Vowels / klinkers.
@@ -427,6 +426,27 @@ def translate_syllable(s):
     return new.onset + new.nucleus + new.coda
 
 
+def pairwise(iterable):  # from itertools recipes
+    a, b = itertools.tee(iterable)
+    next(b, None)
+    return zip(a, b)
+
+
+hyphenation_dictionary = pyphen.Pyphen(lang='nl', left=1, right=1)
+
+
+def translate_using_syllables(word):
+    # Naive assumption: hyphenation is the same as syllable splitting.
+    positions = [0]
+    positions.extend(hyphenation_dictionary.positions(word))
+    positions.append(None)
+    assert len(positions) == len(set(positions))  # all unique
+    syllables = [
+        Syllable(word[start:stop])
+        for start, stop in pairwise(positions)]
+    return ''.join(translate_syllable(syl) for syl in syllables)
+
+
 #
 # Single word translation
 #
@@ -440,27 +460,10 @@ WORDS = {
 }
 
 
-def pairwise(iterable):  # from itertools recipes
-    a, b = itertools.tee(iterable)
-    next(b, None)
-    return zip(a, b)
-
-
-hyphenation_dictionary = pyphen.Pyphen(lang='nl', left=1, right=1)
-
-
 def translate_single_word_token(token):
     translated = WORDS.get(token.value_lower)
     if translated is None:
-        # Naive assumption: hyphenation is the same as syllable splitting.
-        positions = [0]
-        positions.extend(hyphenation_dictionary.positions(token.value_lower))
-        positions.append(None)
-        assert len(positions) == len(set(positions))  # all unique
-        chunks = [
-            token.value_lower[start:stop]
-            for start, stop in pairwise(positions)]
-        translated = ''.join(translate_syllable(c) for c in chunks)
+        translated = translate_using_syllables(token.value_lower)
     return Token(recase(translated, token.case), 'word')
 
 
