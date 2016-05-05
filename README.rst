@@ -16,3 +16,4 @@ References
 
 * https://nl.wikipedia.org/wiki/Haags
 * https://en.wikipedia.org/wiki/The_Hague_dialect
+* http://www.mijnwoordenboek.nl/dialect/Haags
