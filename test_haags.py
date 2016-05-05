@@ -53,12 +53,16 @@ def test_tokenize():
 
 def test_contraction():
     input = """
-        Hallo, ken ik jou? Ik dacht het niet.
-        WAT KAN MIJ HET ROTTEN? Ik houd van jou.
+        Ken ik jou?
+        Ik dacht het niet.
+        WAT MAAKT MIJ HET UIT?
+        van jou
     """
     expected = """
-        Hallo, kennik jou? Ik dachutnie.
-        WAT KAN MÈNNUT ROTTEN? Ik houd vajjâh.
+        Kennik jâh?
+        Ik dachutnie.
+        WAT MAAK MÈNNUT ÙIT?
+        vajjâh
     """
     print(input)
     translated = haags.translate(input)
