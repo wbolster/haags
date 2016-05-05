@@ -324,6 +324,7 @@ class Syllable():
 
 SYLLABLES = {
     "flat": "flet",
+    "wrap": "wrep",
 }
 
 
