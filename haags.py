@@ -85,7 +85,14 @@ def is_regular_word(s):
 
 @attr.s(init=False)
 class Token():
-    TYPES = {'word', 'whitespace', 'punctuation', 'number', 'other', 'translated'}
+    TYPES = {
+        'word',
+        'whitespace',
+        'punctuation',
+        'number',
+        'other',
+        'translated',
+    }
 
     value = attr.ib()
     type = attr.ib()
@@ -277,7 +284,7 @@ def translate_syllable(s):
 
     # Vowels / klinkers.
     # - ei en ij worden è
-    if 'ei' in s and not 'oei' in s:
+    if 'ei' in s and 'oei' not in s:
         s = s.replace('ei', 'è')
     elif 'ij' in s:
         # FIXME: niet voor -lijk en -lijkheid enz
