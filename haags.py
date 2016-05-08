@@ -315,14 +315,18 @@ class Syllable():
     # - https://nl.wikipedia.org/wiki/Lettergreep
     # - https://en.wikipedia.org/wiki/Syllable
     value = attr.ib()
+    head = attr.ib()
+    tail = attr.ib()
     onset = attr.ib()
     nucleus = attr.ib()
     coda = attr.ib()
     rime = attr.ib()
     open = attr.ib()
 
-    def __init__(self, value):
+    def __init__(self, value, head='', tail=''):
         self.value = value
+        self.head = head
+        self.tail = tail
 
         # Split the syllable into its onset, nucleus, and coda. Each
         # syllable is supposed to contain a vowel which forms the
@@ -464,7 +468,7 @@ def translate_using_syllables(word):
     positions.append(None)
     assert len(positions) == len(set(positions))  # all unique
     syllables = [
-        Syllable(word[start:stop])
+        Syllable(word[start:stop], head=word[:start], tail=word[stop:])
         for start, stop in pairwise(positions)]
     return ''.join(translate_syllable(syl) for syl in syllables)
 
