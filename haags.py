@@ -361,10 +361,27 @@ def translate_syllable(syl):
     new = attr.assoc(syl)
 
     # Vowels / klinkers.
-    # - ei en ij worden è
+    # - ei en ij worden è, behalve in -lijk/-lijkheid
     if syl.nucleus in ('ei', 'ij'):
-        # FIXME: niet voor -lijk en -lijkheid, wel voor 'lijk'
-        new.nucleus = 'è'
+        if syl.value in ('lijk', 'lijks') or (
+                syl.value == 'lij' and syl.tail.startswith('k')):
+            if not syl.head:
+                # e.g. lijk (lèk), lijkwit (lèkwit)
+                new.nucleus = 'è'
+            elif syl.head == 'ge':
+                # e.g. gelijk (gelèk), gelijkheid (gelèkhèd)
+                new.nucleus = 'è'
+            elif syl.head.endswith((
+                    'insge', 'isge', 'onge', 'rechts', 'tege', 'verge')):
+                # e.g. ongelijk (ongelèk), tegelijk (tegelèk)
+                new.nucleus = 'è'
+            else:
+                # e.g. bangelijk (bangelijk), eigenlijk (ègelijk),
+                # mogelijk (maugelijk),
+                pass
+        else:
+            # e.g. kijk (kèk), krijg (krèg)
+            new.nucleus = 'è'
     # - lange o wordt au
     elif syl.nucleus == 'oo' and syl.rime is not 'oor':
         new.nucleus = 'au'
