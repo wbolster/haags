@@ -311,22 +311,36 @@ CONSONANTS = 'bcçdfghjklmnpqrstvwxz'
 
 @attr.s(init=False)
 class Syllable():
-    # See:
-    # - https://nl.wikipedia.org/wiki/Lettergreep
-    # - https://en.wikipedia.org/wiki/Syllable
+    """
+    Container for a single syllable and its context.
+
+    See:
+    - https://nl.wikipedia.org/wiki/Lettergreep
+    - https://en.wikipedia.org/wiki/Syllable
+    """
+
     value = attr.ib()
-    head = attr.ib()
-    tail = attr.ib()
+
+    # Subdivision of the syllable, and derived properties.
     onset = attr.ib()
+    rime = attr.ib()
     nucleus = attr.ib()
     coda = attr.ib()
-    rime = attr.ib()
     open = attr.ib()
 
-    def __init__(self, value, head='', tail=''):
+    # Context: all letters before and after this syllable, and the
+    # syllables preceding and following this one.
+    head = attr.ib()
+    tail = attr.ib()
+    previous = attr.ib(default=None, repr=False)
+    next = attr.ib(default=None, repr=False)
+
+    def __init__(self, value, *, head, tail):
         self.value = value
         self.head = head
         self.tail = tail
+        self.previous = None
+        self.next = None
 
         # Split the syllable into its onset, nucleus, and coda. Each
         # syllable is supposed to contain a vowel which forms the
@@ -479,14 +493,24 @@ hyphenation_dictionary = pyphen.Pyphen(lang='nl', left=1, right=1)
 
 
 def translate_using_syllables(word):
-    # Naive assumption: hyphenation is the same as syllable splitting.
+    # The (naive) assumption here is that hyphenation is the same as
+    # syllable splitting. First obtain the split points.
     positions = [0]
     positions.extend(hyphenation_dictionary.positions(word))
     positions.append(None)
     assert len(positions) == len(set(positions))  # all unique
+
+    # Build syllable instances containing all data and context around them.
     syllables = [
         Syllable(word[start:stop], head=word[:start], tail=word[stop:])
         for start, stop in pairwise(positions)]
+    for i in range(len(syllables)):
+        if i > 0:
+            syllables[i].previous = syllables[i-1]
+        if i < len(syllables) - 1:
+            syllables[i].next = syllables[i+1]
+
+    # Process each syllable and format the result.
     return ''.join(translate_syllable(syl) for syl in syllables)
 
 
