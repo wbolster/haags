@@ -10,15 +10,16 @@
 # klinkers
 #
 
-# ei en ij worden è
-Die ongein kan wel waar zijn, maar je blijft wel even mooi van mijn lijf, geil wijf. / Die ongèn ken wel waah zèn, maar je blèf wel effe maui vamme lèf, gèl wèf.
-
+# ei en ij
+zijn / zèn
+ongein / ongèn
+blijft / blèf
+lijf / lèf
 kijk / kèk
 lijk / lèk
 lijken / lèke
 lijkwit / lèkwit
 lelijk / leilijk
-
 gelijk / gelèk
 gelijke / gelèke
 gelijkheid / gelèkheid
@@ -41,44 +42,94 @@ vergelijking / vergelèking
 dergelijks / dergelijks
 blije / blèje
 
-# lange o wordt au
-mooie grote klootviool / mauie graute klautviaul
+# lange o/oo
+groot / graut
+grote / graute
+mooi  / maui
+mooie / mauie
+klootviool / klautviaul
+voor / voâh
+koorts / koâhts
+opera / aupera
+koper / kaupâhblablah
 
-# au en ou worden âh
-ik houd van jou, gouden vrouw; voor jou val ik flauw van een flatgebouw / ik hâh van jâh, gâhwe vrâh; voâh jâh vallik flâh van een fletgebâh
+# au/ou/ouw/auw
+houd / hâh
+jou / jâh
+goud / gâhd
+gouden / gâhwe
+vrouw / vrâh
+flauw / flâh
+flauwe / flâhwe
+gebouw / gebâh
+miauw / miâh
+gemiauw / gemiâh
+gemiauwd / gemiâhd
 
-# ui wordt ùi
-je ruikt als een ui in de rui / je rùik as 'n ùi in de rùi
+# ui
+buik / bùik
+ruikt / rùik
+ui / ùi
+rui / rùi
 
-# eu wordt ui
-zal ik eens een paar deuken in je neus beuken? / sallekes 'n paah duike ijje nuis buike?
-
-# r na eu? dan blijft de ui een eu
-leuke kleur heeft je scheur, maar jammer van die meur / lùike kleuâh heb je scheuâh, maah jammâh van die meuâh
+# eu
+deuken / duike
+neus / nuis
+beuken / buike
+leuke / luike
+kleur / kleuâh
+scheur / scheuâh
+# kleuren / kleure (?)
 
 # lange e wordt ei
-van die hete saté zat ik een uur of twee met m'n reet op de plee aan de diarree / van die heite satei zat ik 'n uâh of twei memme reit op de plei an de diarei
+heet / heit
+hete / heite
+twee / twei
+saté / satei
+diarree / diarei
 
 # ua wordt uwa
-menstruatie is een bloederige situatie / menstruwasie is 'n bloederige situwasie
+situatie / situwasie
+menstruatie / menstruwasie
+nuance / nuanse
+# quasi / quasi (?)
 
 # lange a blijft een lange a, tenzij gevolgd door r
-ben je kaal? naar maar waar / kaal? naah maah waah
+bass / baas
+kaal / kaal
+naar / naah
+maar / maah
+waar / waah
 
 # lange u blijft een lange u (behalve in uitzonderingsgevallen)
+
 
 #
 # medeklinkers
 #
 
 # de r na een korte klank wordt een g
-Barst! Krijg een vet hart, Martin! / Bagst! Krèg 'n vet hagt, Magtin!
+barst / bagst
+hart / hagt
+Martin / Magtin
+varken / varreke
 
-# de r na een lange a wordt een h
-Op een ooievaar groeit geen haar, dat is naar maar wel waar. / Op 'n auievaah groeit gein haah, dat's naah maah wel waah.
+# -aar
+haar / haah
+ooievaar / auievaah
+naar / naah
+waar / waah
 
 # na overige klanken (a, e, i, o, u, eu, ie, oe) wordt de r een âh
-Door een kier in de deur van de bar rook ik de meur van goor, zuur bier. / Doâh een kieâh in de deuâh van de bâh rauk ik de meuâh van goâh, zuâh bieâh.
+door / doâh
+kier / kieâh
+deur / deuâh
+bar / bâh
+meur / meuâh
+goor / goâh
+zuur / zuâh
+bier / bieâh
+
 
 #
 # extra lettergreep voor -l + medeklinker en -r + medeklinker
@@ -220,7 +271,6 @@ van jou / vajjâh
 al een / alle
 kijk dan / kèktan
 
-
 #
 # inheemse woorden
 #
@@ -230,15 +280,13 @@ euro / pleuro
 
 #
 # voorbeeld van wikipedia
+# FIXME: haags seems to contain various errors
 #
 
-Het Haags is het stadsdialect dat door de autochtone "volksklasse" van Den Haag wordt gesproken. / 't Haags isset stasdiâhlek dat doâh de âhtogtaune "volleksklasse" van De Haag wogt gesprauke.
-
-Het behoort tot de Zuid-Hollandse dialecten. / Et behoâht tot de Zùid-Hollandse dialekte.
-
-Als typisch randstedelijk dialect heeft het een grammatica en syntaxis die nauwelijks afwijken van het Standaardnederlands. / As typies randsteidelek dialek heb et een grammatikaah en syntaksis die nâhweleks afwèke van et Standaagdneidâhlands.
-
-Het verschilt echter aanzienlijk meer van deze taalvorm dan het Rotterdams of het Leids. / Et veschilt echtâh anzienlek meâh van deize taalvorrem dan et Rottâhdams of et Lèds.
+# Het Haags is het stadsdialect dat door de autochtone "volksklasse" van Den Haag wordt gesproken. / 't Haags isset stasdiâhlek dat doâh de âhtogtaune "volleksklasse" van De Haag wogt gesprauke.
+# Het behoort tot de Zuid-Hollandse dialecten. / Et behoâht tot de Zùid-Hollandse dialekte.
+# Als typisch randstedelijk dialect heeft het een grammatica en syntaxis die nauwelijks afwijken van het Standaardnederlands. / As typies randsteidelek dialek heb et een grammatikaah en syntaksis die nâhweleks afwèke van et Standaagdneidâhlands.
+# Het verschilt echter aanzienlijk meer van deze taalvorm dan het Rotterdams of het Leids. / Et veschilt echtâh anzienlek meâh van deize taalvorrem dan et Rottâhdams of et Lèds.
 
 
 #
@@ -246,11 +294,8 @@ Het verschilt echter aanzienlijk meer van deze taalvorm dan het Rotterdams of he
 #
 
 het is 2 uur / 't is 2 uâh
-
 Pi is ongeveer 3.14. / Pi is ongeveâh 3.14.
-
 4e keer / 4e keâh
-
 tot drie: 1, 2, 3. / tot drie: 1, 2, 3.
 
 
