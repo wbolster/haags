@@ -4,6 +4,8 @@ Test module.
 
 from pprint import pprint
 
+import pytest
+
 import haags
 
 
@@ -70,12 +72,16 @@ def test_contraction():
     assert translated == expected
 
 
-def test_haags():
-    with open('samples.txt') as fp:
-        pairs = read_sample_file(fp)
-    for dutch, translation in pairs:
-        translated = haags.translate(dutch)
-        print(dutch)
-        print(translation)
-        print(translated)
-        print()
+with open('samples.txt') as fp:
+    pairs = read_sample_file(fp)
+
+
+@pytest.mark.parametrize('dutch,expected', pairs)
+def test_translation(dutch, expected):
+    actual = haags.translate(dutch)
+    print()
+    print(dutch)
+    print(expected)
+    print(actual)
+    print()
+    assert actual == expected
