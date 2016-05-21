@@ -11,251 +11,151 @@
 #
 
 # ei en ij worden è
-Die ongein kan wel waar zijn, maar je blijft wel even mooi van mijn lijf, geil wijf.
-Die ongèn ken wel waah zèn, maar je blèf wel effe maui vamme lèf, gèl wèf.
+Die ongein kan wel waar zijn, maar je blijft wel even mooi van mijn lijf, geil wijf. / Die ongèn ken wel waah zèn, maar je blèf wel effe maui vamme lèf, gèl wèf.
 
-kijk
-kèk
+kijk / kèk
+lijk / lèk
+lijken / lèke
+lijkwit / lèkwit
+lelijk / leilijk
 
-lijk
-lèk
-
-lijken
-lèke
-
-lijkwit
-lèkwit
-
-lelijk
-leilijk
-
-gelijk
-gelèk
-
-gelijke
-gelèke
-
-gelijkheid
-gelèkheid
-
-ongelijk
-ongelèk
-
-bangelijk
-bangelijk
-
-mogelijk
-maugelijk
-
-mogelijke
-maugelijke
-
-gelijkheid
-gelèkhèd
-
-mogelijkheid
-maugelijkhèd
-
-degelijk
-deigelijk
-
-tegelijk
-tegelèk
-
-eigenlijk
-ègelijk
-
-slijk
-slèk
-
-huislijkheid
-hùislijkhèd
-
-huwelijk
-huwelijk
-
-blijken
-blèke
-
-blijkens
-blèkes
-
-vergelijk
-vergelèk
-
-vergelijking
-vergelèking
-
-dergelijks
-dergelijks
-
-blije
-blèje
+gelijk / gelèk
+gelijke / gelèke
+gelijkheid / gelèkheid
+ongelijk / ongelèk
+bangelijk / bangelijk
+mogelijk / maugelijk
+mogelijke / maugelijke
+gelijkheid / gelèkhèd
+mogelijkheid / maugelijkhèd
+degelijk / deigelijk
+tegelijk / tegelèk
+eigenlijk / ègelijk
+slijk / slèk
+huislijkheid / hùislijkhèd
+huwelijk / huwelijk
+blijken / blèke
+blijkens / blèkes
+vergelijk / vergelèk
+vergelijking / vergelèking
+dergelijks / dergelijks
+blije / blèje
 
 # lange o wordt au
-mooie grote klootviool
-mauie graute klautviaul
+mooie grote klootviool / mauie graute klautviaul
 
 # au en ou worden âh
-ik houd van jou, gouden vrouw; voor jou val ik flauw van een flatgebouw
-ik hâh van jâh, gâhwe vrâh; voâh jâh vallik flâh van een fletgebâh
+ik houd van jou, gouden vrouw; voor jou val ik flauw van een flatgebouw / ik hâh van jâh, gâhwe vrâh; voâh jâh vallik flâh van een fletgebâh
 
 # ui wordt ùi
-je ruikt als een ui in de rui
-je rùik as 'n ùi in de rùi
+je ruikt als een ui in de rui / je rùik as 'n ùi in de rùi
 
 # eu wordt ui
-zal ik eens een paar deuken in je neus beuken?
-sallekes 'n paah duike ijje nuis buike?
+zal ik eens een paar deuken in je neus beuken? / sallekes 'n paah duike ijje nuis buike?
 
 # r na eu? dan blijft de ui een eu
-leuke kleur heeft je scheur, maar jammer van die meur
-lùike kleuâh heb je scheuâh, maah jammâh van die meuâh
+leuke kleur heeft je scheur, maar jammer van die meur / lùike kleuâh heb je scheuâh, maah jammâh van die meuâh
 
 # lange e wordt ei
-van die hete saté zat ik een uur of twee met m'n reet op de plee aan de diarree
-van die heite satei zat ik 'n uâh of twei memme reit op de plei an de diarei
+van die hete saté zat ik een uur of twee met m'n reet op de plee aan de diarree / van die heite satei zat ik 'n uâh of twei memme reit op de plei an de diarei
 
 # ua wordt uwa
-menstruatie is een bloederige situatie
-menstruwasie is 'n bloederige situwasie
+menstruatie is een bloederige situatie / menstruwasie is 'n bloederige situwasie
 
 # lange a blijft een lange a, tenzij gevolgd door r
-ben je kaal? naar maar waar
-kaal? naah maah waah
+ben je kaal? naar maar waar / kaal? naah maah waah
 
 # lange u blijft een lange u (behalve in uitzonderingsgevallen)
-
 
 #
 # medeklinkers
 #
 
 # de r na een korte klank wordt een g
-Barst! Krijg een vet hart, Martin!
-Bagst! Krèg 'n vet hagt, Magtin!
+Barst! Krijg een vet hart, Martin! / Bagst! Krèg 'n vet hagt, Magtin!
 
 # de r na een lange a wordt een h
-Op een ooievaar groeit geen haar, dat is naar maar wel waar.
-Op 'n auievaah groeit gein haah, dat's naah maah wel waah.
+Op een ooievaar groeit geen haar, dat is naar maar wel waar. / Op 'n auievaah groeit gein haah, dat's naah maah wel waah.
 
 # na overige klanken (a, e, i, o, u, eu, ie, oe) wordt de r een âh
-Door een kier in de deur van de bar rook ik de meur van goor, zuur bier.
-Doâh een kieâh in de deuâh van de bâh rauk ik de meuâh van goâh, zuâh bieâh.
-
+Door een kier in de deur van de bar rook ik de meur van goor, zuur bier. / Doâh een kieâh in de deuâh van de bâh rauk ik de meuâh van goâh, zuâh bieâh.
 
 #
 # extra lettergreep voor -l + medeklinker en -r + medeklinker
 #
 
 # -ld
-held
-held
+held / held
 
 # -lf
-zelf
-zelluf
+zelf / zelluf
 
 # -lg
-velg
-vellug
+velg / vellug
 
 # -lk
-volk
-volluk
-volks
-volluks
-melk
-melluk
-melkt
-mellukt
+volk / volluk
+volks / volluks
+melk / melluk
+melkt / mellukt
 
 # -lm
-film
-fillum
-kalm
-kallum
+film / fillum
+kalm / kallum
 
 # -lp
-help
-hellup
+help / hellup
 
 # -ls
-vals
-vals
+vals / vals
 
 # -lt
-valt
-valt
+valt / valt
 
 # -rd (?)
-hard
-hard
-haard
-haard
+hard / hard
+haard / haard
 
 # -rf
-nerf
-nerruf
-herfst
-herrufs
+nerf / nerruf
+herfst / herrufs
 
 # -rg
-berg
-berrug
-zorg
-zorrug
-burg
-burrag
-wurgt
-wurrugt
+berg / berrug
+zorg / zorrug
+burg / burrag
+wurgt / wurrugt
 
 # -rk
-sterk
-sterrek
-sterks
-sterreks
-sterkst
-sterreks
-sterkte
-sterrekte
+sterk / sterrek
+sterks / sterreks
+sterkst / sterreks
+sterkte / sterrekte
 
 # -rm
-arm
-arrum
+arm / arrum
 
 # -rn
 # lantaarn (?)
-kern
-kerrun
-urn
-urrun
+kern / kerrun
+urn / urrun
 
 # -rp
-dorp
-durrup
-terp
-terrup
-worp
-worrup
+dorp / dorrup
+terp / terrup
+worp / worrup
 
 # -rs
-kers
-kers
-worst
-wogs
+kers / kers
+worst / wogs
 
 # -rt
-hart
-hagt
-scheurt
-scheâht
-viert
-vieâht
+hart / hagt
+scheurt / scheâht
+viert / vieâht
 
 # -rw
-murw
-murw
+murw / murw
 
 
 #
@@ -272,111 +172,90 @@ murw
 #
 
 # -er wordt -âh
-lekker kabouter
-lekkâh kabâhtâh
+lekker / lekkâh
+kabouter / kabâhtâh
 
 # -ig wordt -ag
-machtig tachtig rustig
-machtag tachtag rustag
+machtig / machtag
+tachtig / tachtag
+rustig / rustag
 
 # -eer wordt -eâh
-zweer meneer meneertje weer een keer peer neer
-zweâh meneâh meneâhtsje weâh een keâh peâh neâh
+zweer / zweâh
+meneer / meneâh
+meneertje / meneâhtsje
+weer / weâh
+keer / keâh
+peer / peâh
+neer / neâh
 
 # -tie wordt -sie
 # -en wordt -e (alleen eind van woord)
 # -en mag ook -ûh aan einde van de zin
 
 # verkleinwoorden krijgen -ie
-bakje koffie
-bakkie koffie
+bakje koffie / bakkie koffie
 
-huisje boompje beestje
-hùissie baumpie beissie
+huisje / hùissie
+boompje / baumpie
+beestje / beissie
 
 # verkleinwoorden op -tje mogen een tussen s; hoeft niet
-pilletjes gabbertje broertje
-pilletsjes gabbâhtsje broeâhtsje
+pilletjes / pilletsjes
+gabbâhtsje / gabbertje
+broertje / broeâhtsje
 
 
 #
 # contracties
 #
 
-hallo, ken ik jou?
-hallo, kennik jâh?
-
-mag het
-maggut
-
-aan het
-annut
-
-van het
-vannut
-
-als een
-assun
-
-ik dacht het
-dachut
-
-van jou
-vajjâh
-
-al een
-alle
-
-kijk dan
-kèktan
+hallo, ken ik jou? / hallo, kennik jâh?
+mag het / maggut
+aan het / annut
+van het / vannut
+als een / assun
+ik dacht het / dachut
+van jou / vajjâh
+al een / alle
+kijk dan / kèktan
 
 
 #
 # inheemse woorden
 #
 
-euro
-pleuro
-
+euro / pleuro
 
 
 #
 # voorbeeld van wikipedia
 #
 
-Het Haags is het stadsdialect dat door de autochtone "volksklasse" van Den Haag wordt gesproken.
-'t Haags isset stasdiâhlek dat doâh de âhtogtaune "volleksklasse" van De Haag wogt gesprauke.
+Het Haags is het stadsdialect dat door de autochtone "volksklasse" van Den Haag wordt gesproken. / 't Haags isset stasdiâhlek dat doâh de âhtogtaune "volleksklasse" van De Haag wogt gesprauke.
 
-Het behoort tot de Zuid-Hollandse dialecten.
-Et behoâht tot de Zùid-Hollandse dialekte.
+Het behoort tot de Zuid-Hollandse dialecten. / Et behoâht tot de Zùid-Hollandse dialekte.
 
-Als typisch randstedelijk dialect heeft het een grammatica en syntaxis die nauwelijks afwijken van het Standaardnederlands.
-As typies randsteidelek dialek heb et een grammatikaah en syntaksis die nâhweleks afwèke van et Standaagdneidâhlands.
+Als typisch randstedelijk dialect heeft het een grammatica en syntaxis die nauwelijks afwijken van het Standaardnederlands. / As typies randsteidelek dialek heb et een grammatikaah en syntaksis die nâhweleks afwèke van et Standaagdneidâhlands.
 
-Het verschilt echter aanzienlijk meer van deze taalvorm dan het Rotterdams of het Leids.
-Et veschilt echtâh anzienlek meâh van deize taalvorrem dan et Rottâhdams of et Lèds.
+Het verschilt echter aanzienlijk meer van deze taalvorm dan het Rotterdams of het Leids. / Et veschilt echtâh anzienlek meâh van deize taalvorrem dan et Rottâhdams of et Lèds.
 
 
 #
 # getallen
 #
 
-het is 2 uur
-'t is 2 uâh
+het is 2 uur / 't is 2 uâh
 
-Pi is ongeveer 3.14.
-Pi is ongeveâh 3.14.
+Pi is ongeveer 3.14. / Pi is ongeveâh 3.14.
 
-4e keer
-4e keâh
+4e keer / 4e keâh
 
-tot drie: 1, 2, 3.
-tot drie: 1, 2, 3.
+tot drie: 1, 2, 3. / tot drie: 1, 2, 3.
 
 
 #
 # overig
 #
 
-'t is 'n mooie dag.
-'t is 'n mauie dag.
+'t is 'n mooie dag. / 't is 'n mauie dag.

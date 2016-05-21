@@ -11,9 +11,9 @@ def read_sample_file(fp):
     lines = (line.strip() for line in fp)
     lines = (line for line in lines if line and not line.startswith('#'))
     pairs = []
-    while lines:
-        a, b, *lines = lines
-        pairs.append((a, b))
+    for line in lines:
+        a, b = line.split('/')
+        pairs.append((a.strip(), b.strip()))
     return pairs
 
 
