@@ -497,7 +497,7 @@ def translate_using_syllables(word):
     # syllable splitting. First obtain the split points.
     positions = [0]
     positions.extend(hyphenation_dictionary.positions(word))
-    positions.append(None)
+    positions.append(len(word))
     assert len(positions) == len(set(positions))  # all unique
 
     # Build syllable instances containing all data and context around them.
