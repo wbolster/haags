@@ -478,6 +478,28 @@ def translate_syllable(syl):
             # e.g. sterkte (sterrekte)
             new.coda = syl.coda[0] + syl.coda[0] + 'e' + syl.coda[1:]
 
+    # Suffixes
+    if syl.head and not syl.tail:
+
+        # Uitgang -ens wordt meestal -es.
+        if syl.rime == 'ens':
+            if syl.onset in ('g', 'k', 't', 'v'):
+                # e.g. volgens (volges), tekens (teikes), gewetens
+                # (geweites), havens (haves)
+                # TODO: uitzonderingen? intens
+                new.coda = 's'
+            elif syl.onset == 'd' and not syl.head.endswith(('ca', 'ten')):
+                # e.g. heidens (hèdes), niet cadens, tendens
+                new.coda = 's'
+            elif syl.onset == 'r' and not syl.head.endswith('fo'):
+                # e.g. varens (vares), niet cadens, forens
+                # TODO: meer uitzonderingen
+                new.coda = 's'
+            # TODO: -lens  molens cameralens
+            # TODO: -mens  examens aapmens
+            # TODO: -pens  wapens
+            # TODO: -sens kunssens
+            # TODO: meer -ens
     # The new instance itself is useless since only a few attributes
     # make sense at this point, so simply return a string.
     return new.onset + new.nucleus + new.coda
