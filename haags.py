@@ -462,9 +462,9 @@ def translate_syllable(syl):
         # e.g. bakt (bak), respect (respek)
         new.coda = 'k'
 
-    # Woorden eindigend op -l + medeklinker of -r + medeklinker krijgen
-    # soms een extra lettergreep: medeklinkerverdubbeling en een
-    # tussen-a, tussen-e, of-u.
+    # Lettergrepen eindigend op een vloeiklank (l of r) gevolgd
+    # door een medeklinker krijgen soms een extra lettergreep:
+    # medeklinkerverdubbeling en een tussen-a, tussen-e, of-u.
     elif syl.rime == 'urg':
         # e.g. voorburg (voâhburrag)
         new.coda = 'rrag' + syl.coda[3:]
