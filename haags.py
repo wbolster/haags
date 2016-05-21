@@ -401,6 +401,8 @@ def translate_syllable(syl):
         new.nucleus = 'au'
     elif syl.nucleus == 'o' and syl.open:
         new.nucleus = 'au'
+    elif syl.nucleus in ('ooi', 'ooie'):  # pyphen oddity
+        new.nucleus = 'au' + syl.nucleus[2:]
     # - au en ou worden âh
     # - -ouw/-auw verliezen de -w
     # - -oud verliest de -d
