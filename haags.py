@@ -516,10 +516,11 @@ def translate_syllable(syl):
     # Lettergrepen eindigend op een vloeiklank (l of r) gevolgd
     # door een medeklinker krijgen soms een extra lettergreep:
     # medeklinkerverdubbeling en een tussen-a, tussen-e, of-u.
-    elif syl.rime == 'urg':
+    if syl.rime == 'urg':
         # e.g. voorburg (voâhburrag)
         new.coda = 'rrag' + syl.coda[3:]
     elif syl.coda.startswith(('l', 'r')) and len(syl.coda) > 1:
+        # FIXME: do not clash with r- coda handling above
         if syl.coda.startswith((
                 'lf', 'lg', 'lk', 'lm', 'lp',
                 'rf', 'rg', 'rm', 'rn', 'rp')):
