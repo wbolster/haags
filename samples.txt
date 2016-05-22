@@ -153,6 +153,25 @@ goor / goâh
 zuur / zuâh
 bier / bieâh
 
+# -ens
+hersens / hegses
+volgens  / volges
+tekens / teikes
+gewetens / geweites
+havens / haves
+intens / intens
+heidens / hèdes
+cadens / cadens
+tendens / tendens
+varens / vares
+cadens / cadens
+forens / forens
+molens / maules
+cameralens / cameralens
+examens / exames
+aapmens / aapmens
+wapens / wapes
+kussens / kusses
 
 #
 # extra lettergreep voor -l + medeklinker en -r + medeklinker
