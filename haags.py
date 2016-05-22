@@ -374,8 +374,11 @@ def translate_syllable(syl):
 
     new = attr.assoc(syl)
 
-    # Vowels / klinkers.
-    # - ei en ij worden è, behalve in -lijk/-lijkheid
+    #
+    # vowels (klinkers)
+    #
+
+    # ei en ij worden è, behalve in -lijk/-lijkheid
     if syl.nucleus in ('ei', 'ij'):
         if syl.value in ('lijk', 'lijks') or (
                 syl.value == 'lij' and syl.tail.startswith('k')):
@@ -396,34 +399,57 @@ def translate_syllable(syl):
         else:
             # e.g. kijk (kèk), krijg (krèg)
             new.nucleus = 'è'
-    # - lange o wordt au
-    elif syl.nucleus == 'oo' and syl.rime is not 'oor':
+
+    # lange o wordt au
+    if syl.nucleus == 'oo' and syl.rime != 'oor':
         new.nucleus = 'au'
     elif syl.nucleus == 'o' and syl.open:
         new.nucleus = 'au'
     elif syl.nucleus in ('ooi', 'ooie'):  # pyphen oddity
         new.nucleus = 'au' + syl.nucleus[2:]
-    # - au en ou worden âh
-    # - -ouw/-auw verliezen de -w
-    # - -oud verliest de -d
-    elif syl.rime == 'oud':
-        # e.g. goud
-        new.nucleus = 'âh'
-        new.coda = ''
-    elif syl.nucleus in ('au', 'auw', 'ou', 'ouw'):
+
+    # au/ou wordt âh
+    if syl.nucleus in ('au', 'auw', 'ou', 'ouw'):
+        # -ouw/-auw verliezen de -w,
         # e.g. saus, rauw, nou, jouw
         new.nucleus = 'âh'
+        if syl.value == 'houd':
+            # -houd verliest soms de -d
+            if syl.previous and syl.previous.value in (
+                    'be', 'der', 'huis', 'in', 'ont'):
+                # e.g. behoud (behâhd), inhoud (inhâhd).
+                pass
+            else:
+                # e.g. houd (hâh), aanhoud (anhâh)
+                new.coda = ''
+    elif syl.previous and syl.previous.rime == 'ou':
+        # -oude- wordt meestal -âhwe-
+        if syl.value == 'de':
+            # e.g. oude (âhwe), oudere (âhwere)
+            new.onset = 'w'
+        elif syl.value == 'der':
+            # e.g. pashouder (pashâhwâh)
+            new.onset = 'w'
+            new.nucleus = 'âh'
+            new.coda = ''
+        elif syl.value == 'den':
+            new.onset = 'w'
+            new.nucleus = 'e'
+            new.coda = ''
+
     # - ui wordt ùi
-    elif syl.nucleus == 'ui':
+    if syl.nucleus == 'ui':
         # e.g. rui (rùik)
         new.nucleus = 'ùi'
+
     # eu wordt ui, behalve als een r volgt
-    elif syl.nucleus == 'eu' and not syl.coda.startswith('r'):
+    if syl.nucleus == 'eu' and not syl.coda.startswith('r'):
         new.nucleus = 'ui'
+
     # - lange e wordt ei
     #   TODO: er zijn nog meer lange e, maar om dat vast te stellen heb
     #   je de volgende lettergreep nodig
-    elif syl.nucleus in ('ee', 'é', 'éé', 'ée') and syl.rime != 'eer':
+    if syl.nucleus in ('ee', 'é', 'éé', 'ée') and syl.rime != 'eer':
         new.nucleus = 'ei'
     # TODO: ua wordt uwa (crosses syllables)
 

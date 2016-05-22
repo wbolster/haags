@@ -56,17 +56,31 @@ opera / aupera
 koper / kaupâh
 
 # au/ou/ouw/auw
-houd / hâh
 jou / jâh
+oud / âhd
+oude / âhwe
+ouder / âhwâh
+oudere / âhwere
 goud / gâhd
 gouden / gâhwe
+goudeerlijk / gâhdeâhlijk
+houd / hâh
+pashouder / pashâhwâh
 vrouw / vrâh
 flauw / flâh
 flauwe / flâhwe
+flauws / flâhs
 gebouw / gebâh
 miauw / miâh
 gemiauw / gemiâh
 gemiauwd / gemiâhd
+inhoudelijk / inhâhdelijk
+zouthoudend / zâhthâhdend
+inhoud / inhâhd
+houd / hâh
+aanhoud / anhâh
+behoud / behâhd
+huishoud / hùishâhd
 
 # ui
 buik / bùik
