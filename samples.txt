@@ -41,6 +41,7 @@ vergelijk / vergelèk
 vergelijking / vergelèking
 dergelijks / dergelijks
 blije / blèje
+talrijkst / talrèks
 
 # lange o/oo
 groot / graut
@@ -52,7 +53,7 @@ klootviool / klautviaul
 voor / voâh
 koorts / koâhts
 opera / aupera
-koper / kaupâhblablah
+koper / kaupâh
 
 # au/ou/ouw/auw
 houd / hâh
@@ -95,8 +96,10 @@ menstruatie / menstruwasie
 nuance / nuanse
 # quasi / quasi (?)
 
-# lange a blijft een lange a, tenzij gevolgd door r
-bass / baas
+# aa
+baas / baas
+baan / baan
+aan / an
 kaal / kaal
 naar / naah
 maar / maah
@@ -262,7 +265,7 @@ broertje / broeâhtsje
 # contracties
 #
 
-hallo, ken ik jou? / hallo, kennik jâh?
+hallo, ken ik jou? / hallau, kennik jâh?
 mag het / maggut
 aan het / annut
 van het / vannut
