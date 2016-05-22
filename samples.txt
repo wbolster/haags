@@ -104,11 +104,16 @@ twee / twei
 saté / satei
 diarree / diarei
 
-# ua wordt uwa
+# ua
 situatie / situwasie
 menstruatie / menstruwasie
+actualisatie / actuwalisasie
 nuance / nuanse
-# quasi / quasi (?)
+adequaat / adekwaat
+adequate / adekwate
+adequater / adekwatâh
+adequaatst / adekwaats
+quasi / kwasie
 
 # aa
 baas / baas

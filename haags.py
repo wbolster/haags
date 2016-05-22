@@ -451,7 +451,11 @@ def translate_syllable(syl):
     #   je de volgende lettergreep nodig
     if syl.nucleus in ('ee', 'é', 'éé', 'ée') and syl.rime != 'eer':
         new.nucleus = 'ei'
-    # TODO: ua wordt uwa (crosses syllables)
+
+    # -ua- wordt -uwa-
+    if syl.value == 'a' and syl.previous and syl.previous.rime == 'u':
+        # e.g. situatie (situwasie)
+        new.onset = 'w'
 
     # lange a blijft meestal een lange a
     if syl.value == 'aan':
