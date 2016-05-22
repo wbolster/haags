@@ -468,6 +468,11 @@ def translate_syllable(syl):
         # e.g. adequaat (adekwaat)
         new.onset = 'kw'
 
+    # -si wordt -sie
+    if syl.value == 'si':
+        # e.g. quasi (kwasie)
+        new.nucleus = 'ie'
+
     # - TODO de r na een korte klank wordt een g
     # - de r na een lange a wordt een h
     # - na overige klanken wordt de r een âh
