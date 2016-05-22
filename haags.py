@@ -467,27 +467,31 @@ def translate_syllable(syl):
     # - na overige klanken wordt de r een âh
     # - uitgang -eer wordt -eâh
     # TODO: coda.startswith('r'), e.g. barst (bagst)
-    if syl.rime == 'aar':
-        # e.g. naar (naah)
-        new.coda = 'h'
-    elif syl.rime == 'ar':
-        # e.g. bar (bâh)
-        new.nucleus = 'âh'
-        new.coda = ''
-    elif syl.nucleus == 'oo' and syl.coda.startswith('r'):
-        # e.g. door (doâh)
-        new.nucleus = 'o'
-        new.coda = 'âh' + syl.coda[1:]
-    elif syl.rime == 'eer':
-        new.nucleus = 'e'
-        new.coda = 'âh'
-    elif syl.rime == 'ier':
-        new.nucleus = 'ie'
-        new.coda = 'âh'
-    elif syl.rime == 'er':
-        pass  # TODO
-    elif new.coda == 'r':
-        new.coda = 'âh'
+    if syl.coda.startswith('r'):
+        if syl.rime == 'ar':
+            # e.g. bar (bâh)
+            new.nucleus = 'âh'
+            new.coda = ''
+        elif syl.rime == 'aar':
+            # e.g. naar (naah)
+            new.coda = 'h'
+        elif syl.nucleus == 'oo' and syl.coda.startswith('r'):
+            # e.g. door (doâh)
+            new.nucleus = 'o'
+            new.coda = 'âh' + syl.coda[1:]
+        elif syl.rime == 'eer':
+            new.nucleus = 'e'
+            new.coda = 'âh'
+        elif syl.rime == 'ier':
+            new.nucleus = 'ie'
+            new.coda = 'âh'
+        elif syl.rime == 'uur':
+            new.nucleus = 'u'
+            new.coda = 'âh'
+        elif syl.rime == 'er':
+            pass  # TODO
+        elif new.coda == 'r':
+            new.coda = 'âh'
 
     # FIXME: alleen aan einde woord?
     # -ft wordt -f
