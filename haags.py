@@ -362,6 +362,7 @@ class Syllable():
 
 
 SYLLABLES = {
+    "aan": "an",
     "flat": "flet",
     "wrap": "wrep",
 }
@@ -456,11 +457,6 @@ def translate_syllable(syl):
     if syl.value == 'a' and syl.previous and syl.previous.rime == 'u':
         # e.g. situatie (situwasie)
         new.onset = 'w'
-
-    # lange a blijft meestal een lange a
-    if syl.value == 'aan':
-        # e.g. aan (an)
-        new.nucleus = 'a'
 
     #
     # consonants / medeklinkers
