@@ -427,7 +427,15 @@ def translate_syllable(syl):
         new.nucleus = 'ei'
     # TODO: ua wordt uwa (crosses syllables)
 
-    # Consonants / medeklinkers.
+    # lange a blijft meestal een lange a
+    if syl.value == 'aan':
+        # e.g. aan (an)
+        new.nucleus = 'a'
+
+    #
+    # consonants / medeklinkers
+    #
+
     # - TODO de r na een korte klank wordt een g
     # - de r na een lange a wordt een h
     # - na overige klanken wordt de r een âh
