@@ -374,7 +374,10 @@ def translate_syllable(syl):
     if translated is not None:
         return translated
 
-    new = attr.assoc(syl)
+    # defaults serving as the starting point
+    onset = syl.onset
+    nucleus = syl.nucleus
+    coda = syl.coda
 
     #
     # vowels (klinkers)
@@ -386,35 +389,35 @@ def translate_syllable(syl):
                 syl.value == 'lij' and syl.tail.startswith('k')):
             if not syl.head:
                 # e.g. lijk (lèk), lijkwit (lèkwit)
-                new.nucleus = 'è'
+                nucleus = 'è'
             elif syl.head == 'ge':
                 # e.g. gelijk (gelèk), gelijkheid (gelèkhèd)
-                new.nucleus = 'è'
+                nucleus = 'è'
             elif syl.head.endswith((
                     'insge', 'isge', 'onge', 'rechts', 'tege', 'verge')):
                 # e.g. ongelijk (ongelèk), tegelijk (tegelèk)
-                new.nucleus = 'è'
+                nucleus = 'è'
             else:
                 # e.g. bangelijk (bangelijk), eigenlijk (ègelijk),
                 # mogelijk (maugelijk),
                 pass
         else:
             # e.g. kijk (kèk), krijg (krèg)
-            new.nucleus = 'è'
+            nucleus = 'è'
 
     # lange o wordt au
     if syl.nucleus == 'oo' and syl.rime != 'oor':
-        new.nucleus = 'au'
+        nucleus = 'au'
     elif syl.nucleus == 'o' and syl.open:
-        new.nucleus = 'au'
+        nucleus = 'au'
     elif syl.nucleus in ('ooi', 'ooie'):  # pyphen oddity
-        new.nucleus = 'au' + syl.nucleus[2:]
+        nucleus = 'au' + syl.nucleus[2:]
 
     # au/ou wordt âh
     if syl.nucleus in ('au', 'auw', 'ou', 'ouw'):
         # -ouw/-auw verliezen de -w,
         # e.g. saus, rauw, nou, jouw
-        new.nucleus = 'âh'
+        nucleus = 'âh'
         if syl.value == 'houd':
             # -houd verliest soms de -d
             if syl.previous and syl.previous.value in (
@@ -423,41 +426,41 @@ def translate_syllable(syl):
                 pass
             else:
                 # e.g. houd (hâh), aanhoud (anhâh)
-                new.coda = ''
+                coda = ''
     elif syl.previous and syl.previous.rime == 'ou':
         # -oude- wordt meestal -âhwe-
         if syl.value == 'de':
             # e.g. oude (âhwe), oudere (âhwere)
-            new.onset = 'w'
+            onset = 'w'
         elif syl.value == 'der':
             # e.g. pashouder (pashâhwâh)
-            new.onset = 'w'
-            new.nucleus = 'âh'
-            new.coda = ''
+            onset = 'w'
+            nucleus = 'âh'
+            coda = ''
         elif syl.value == 'den':
-            new.onset = 'w'
-            new.nucleus = 'e'
-            new.coda = ''
+            onset = 'w'
+            nucleus = 'e'
+            coda = ''
 
     # - ui wordt ùi
     if syl.nucleus == 'ui':
         # e.g. rui (rùik)
-        new.nucleus = 'ùi'
+        nucleus = 'ùi'
 
     # eu wordt ui, behalve als een r volgt
     if syl.nucleus == 'eu' and not syl.coda.startswith('r'):
-        new.nucleus = 'ui'
+        nucleus = 'ui'
 
     # - lange e wordt ei
     #   TODO: er zijn nog meer lange e, maar om dat vast te stellen heb
     #   je de volgende lettergreep nodig
     if syl.nucleus in ('ee', 'é', 'éé', 'ée') and syl.rime != 'eer':
-        new.nucleus = 'ei'
+        nucleus = 'ei'
 
     # -ua- wordt -uwa-
     if syl.value == 'a' and syl.previous and syl.previous.rime == 'u':
         # e.g. situatie (situwasie)
-        new.onset = 'w'
+        onset = 'w'
 
     #
     # consonants / medeklinkers
@@ -468,7 +471,7 @@ def translate_syllable(syl):
         # -kt/-ct wordt -k
         if syl.coda == 'ct':
             # e.g. respect (respek)
-            new.coda = 'k'
+            coda = 'k'
         elif syl.coda.startswith('r'):
             # e.g. kort (kogt), wordt (wogt), harst (hags)
             pass  # handled elsewhere
@@ -477,20 +480,20 @@ def translate_syllable(syl):
             pass
         elif syl.rime == 'angt':
             # e.g. hangt (hank)
-            new.coda = 'nk'
+            coda = 'nk'
         else:
             # e.g. bakt (bak), nacht (nach), zwart (zwagt)
-            new.coda = syl.coda[:-1]
+            coda = syl.coda[:-1]
 
     # qua- wordt kwa-
     if syl.onset == 'qu':
         # e.g. adequaat (adekwaat)
-        new.onset = 'kw'
+        onset = 'kw'
 
     # -si wordt -sie
     if syl.value == 'si':
         # e.g. quasi (kwasie)
-        new.nucleus = 'ie'
+        nucleus = 'ie'
 
     # - TODO de r na een korte klank wordt een g
     # - de r na een lange a wordt een h
@@ -500,28 +503,28 @@ def translate_syllable(syl):
     if syl.coda.startswith('r'):
         if syl.rime == 'ar':
             # e.g. bar (bâh)
-            new.nucleus = 'âh'
-            new.coda = ''
+            nucleus = 'âh'
+            coda = ''
         elif syl.rime == 'aar':
             # e.g. naar (naah)
-            new.coda = 'h'
+            coda = 'h'
         elif syl.nucleus == 'oo' and syl.coda.startswith('r'):
             # e.g. door (doâh)
-            new.nucleus = 'o'
-            new.coda = 'âh' + syl.coda[1:]
+            nucleus = 'o'
+            coda = 'âh' + syl.coda[1:]
         elif syl.rime == 'eer':
-            new.nucleus = 'e'
-            new.coda = 'âh'
+            nucleus = 'e'
+            coda = 'âh'
         elif syl.rime == 'ier':
-            new.nucleus = 'ie'
-            new.coda = 'âh'
+            nucleus = 'ie'
+            coda = 'âh'
         elif syl.rime == 'uur':
-            new.nucleus = 'u'
-            new.coda = 'âh'
+            nucleus = 'u'
+            coda = 'âh'
         elif syl.rime == 'er':
             pass  # TODO
-        elif new.coda == 'r':
-            new.coda = 'âh'
+        elif coda == 'r':
+            coda = 'âh'
         # TODO: drop -t
 
     # Lettergrepen eindigend op een vloeiklank (l of r) gevolgd
@@ -529,17 +532,17 @@ def translate_syllable(syl):
     # medeklinkerverdubbeling en een tussen-a, tussen-e, of-u.
     if syl.rime == 'urg':
         # e.g. voorburg (voâhburrag)
-        new.coda = 'rrag' + syl.coda[3:]
+        coda = 'rrag' + syl.coda[3:]
     elif syl.coda.startswith(('l', 'r')) and len(syl.coda) > 1:
         # FIXME: do not clash with r- coda handling above
         if syl.coda.startswith((
                 'lf', 'lg', 'lk', 'lm', 'lp',
                 'rf', 'rg', 'rm', 'rn', 'rp')):
             # e.g. volk (volluk), zorg (zorrug)
-            new.coda = syl.coda[0] + syl.coda[0] + 'u' + syl.coda[1:]
+            coda = syl.coda[0] + syl.coda[0] + 'u' + syl.coda[1:]
         elif syl.coda.startswith('rk'):
             # e.g. sterkte (sterrekte)
-            new.coda = syl.coda[0] + syl.coda[0] + 'e' + syl.coda[1:]
+            coda = syl.coda[0] + syl.coda[0] + 'e' + syl.coda[1:]
 
     # Suffixes
     if syl.head:
@@ -550,23 +553,21 @@ def translate_syllable(syl):
                 # e.g. volgens (volges), tekens (teikes), gewetens
                 # (geweites), havens (haves)
                 # TODO: uitzonderingen? intens
-                new.coda = 's'
+                coda = 's'
             elif syl.onset == 'd' and not syl.head.endswith(('ca', 'ten')):
                 # e.g. heidens (hèdes), niet cadens, tendens
-                new.coda = 's'
+                coda = 's'
             elif syl.onset == 'r' and not syl.head.endswith('fo'):
                 # e.g. varens (vares)
                 # TODO: meer uitzonderingen
-                new.coda = 's'
+                coda = 's'
             # TODO: -lens  molens cameralens
             # TODO: -mens  examens aapmens
             # TODO: -pens  wapens
             # TODO: -sens kussens
             # TODO: meer -ens
 
-    # The new instance itself is useless since only a few attributes
-    # make sense at this point, so simply return a string.
-    return new.onset + new.nucleus + new.coda
+    return onset + nucleus + coda
 
 
 def pairwise(iterable):  # from itertools recipes
