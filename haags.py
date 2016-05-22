@@ -463,6 +463,11 @@ def translate_syllable(syl):
     # consonants / medeklinkers
     #
 
+    # qua- wordt kwa-
+    if syl.onset == 'qu':
+        # e.g. adequaat (adekwaat)
+        new.onset = 'kw'
+
     # - TODO de r na een korte klank wordt een g
     # - de r na een lange a wordt een h
     # - na overige klanken wordt de r een âh
