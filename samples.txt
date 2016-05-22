@@ -185,6 +185,10 @@ vals / vals
 
 # -lt
 valt / valt
+halte/ halte
+
+# -lv
+behalve / behalleve
 
 # -rd (?)
 hard / hard
@@ -227,6 +231,9 @@ worst / wogs
 hart / hagt
 scheurt / scheâht
 viert / vieâht
+
+# -rv
+reserve / reserreve
 
 # -rw
 murw / murw
