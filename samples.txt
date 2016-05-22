@@ -131,6 +131,34 @@ waar / waah
 # medeklinkers
 #
 
+# -t
+tot / tot
+rot / rot
+wat / wat
+dit / dit
+trut / tgut
+racist / rassis
+loopt / laup
+nacht / nach
+krijgt / krèg
+vuist / vùis
+denkt / denk
+wordt / wogt
+kort / kogt
+best / bes
+zwart / zwagt
+hangt / hank
+behangt / behank
+krenkt / krenk
+bakt / bak
+fietst / fiets
+valt / valt
+baltst / balts
+harst / hags
+wringt / wring
+zingt / zing
+brengt / breng
+
 # de r na een korte klank wordt een g
 barst / bagst
 hart / hagt

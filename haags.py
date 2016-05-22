@@ -463,6 +463,25 @@ def translate_syllable(syl):
     # consonants / medeklinkers
     #
 
+    # uitgang -t na een andere medeklinker vervalt in de meeste gevallen
+    if len(syl.coda) >= 2 and syl.coda.endswith('t'):
+        # -kt/-ct wordt -k
+        if syl.coda == 'ct':
+            # e.g. respect (respek)
+            new.coda = 'k'
+        elif syl.coda.startswith('r'):
+            # e.g. kort (kogt), wordt (wogt), harst (hags)
+            pass  # handled elsewhere
+        elif syl.coda == 'lt':
+            # e.g. valt (valt)
+            pass
+        elif syl.rime == 'angt':
+            # e.g. hangt (hank)
+            new.coda = 'nk'
+        else:
+            # e.g. bakt (bak), nacht (nach), zwart (zwagt)
+            new.coda = syl.coda[:-1]
+
     # qua- wordt kwa-
     if syl.onset == 'qu':
         # e.g. adequaat (adekwaat)
@@ -503,15 +522,7 @@ def translate_syllable(syl):
             pass  # TODO
         elif new.coda == 'r':
             new.coda = 'âh'
-
-    # FIXME: alleen aan einde woord?
-    # -ft wordt -f
-    # -kt wordt -k
-    if syl.coda == 'ft':
-        new.coda = 'f'
-    elif syl.coda in ('kt', 'ct'):
-        # e.g. bakt (bak), respect (respek)
-        new.coda = 'k'
+        # TODO: drop -t
 
     # Lettergrepen eindigend op een vloeiklank (l of r) gevolgd
     # door een medeklinker krijgen soms een extra lettergreep:
