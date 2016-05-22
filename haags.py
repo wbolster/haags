@@ -157,6 +157,7 @@ ALL_CONTRACTIONS = {
     "en ik": "ennik",
     "had er": "hattâh",
     "heb ik": "heppik",
+    "het wordt": "twogt",
     "ik dacht het niet": "ik dachutnie",
     "ik dacht het": "dachut",
     "in een": "innun",
