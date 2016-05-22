@@ -543,13 +543,13 @@ def translate_syllable(syl):
                 # e.g. heidens (hèdes), niet cadens, tendens
                 new.coda = 's'
             elif syl.onset == 'r' and not syl.head.endswith('fo'):
-                # e.g. varens (vares), niet cadens, forens
+                # e.g. varens (vares)
                 # TODO: meer uitzonderingen
                 new.coda = 's'
             # TODO: -lens  molens cameralens
             # TODO: -mens  examens aapmens
             # TODO: -pens  wapens
-            # TODO: -sens kunssens
+            # TODO: -sens kussens
             # TODO: meer -ens
 
     # The new instance itself is useless since only a few attributes
