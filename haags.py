@@ -333,8 +333,8 @@ class Syllable():
     # syllables preceding and following this one.
     head = attr.ib()
     tail = attr.ib()
-    previous = attr.ib(default=None, repr=False)
-    next = attr.ib(default=None, repr=False)
+    previous = attr.ib(default=None, repr=False, hash=False)
+    next = attr.ib(default=None, repr=False, hash=False)
 
     def __init__(self, value, *, head, tail):
         self.value = value
