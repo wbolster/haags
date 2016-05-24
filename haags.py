@@ -83,7 +83,7 @@ def is_regular_word(s):
     return s.isalpha()
 
 
-@attr.s(init=False)
+@attr.s(init=False, slots=True)
 class Token():
     TYPES = {
         'word',
@@ -310,7 +310,7 @@ VOWELS = sorted(
 CONSONANTS = 'bcçdfghjklmnpqrstvwxz'
 
 
-@attr.s(init=False)
+@attr.s(init=False, slots=True)
 class Syllable():
     """
     Container for a single syllable and its context.
