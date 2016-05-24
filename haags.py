@@ -579,7 +579,7 @@ def pairwise(iterable):  # from itertools recipes
 hyphenation_dictionary = pyphen.Pyphen(lang='nl', left=1, right=1)
 
 
-def translate_using_syllables(word):
+def split_into_syllables(word):
     # The (naive) assumption here is that hyphenation is the same as
     # syllable splitting. First obtain the split points.
     positions = [0]
@@ -597,7 +597,11 @@ def translate_using_syllables(word):
         if i < len(syllables) - 1:
             syllables[i].next = syllables[i+1]
 
-    # Process each syllable and format the result.
+    return syllables
+
+
+def translate_using_syllables(word):
+    syllables = split_into_syllables(word)
     return ''.join(translate_syllable(syl) for syl in syllables)
 
 
