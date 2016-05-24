@@ -380,6 +380,19 @@ def translate_syllable(syl):
     coda = syl.coda
 
     #
+    # special cases
+    #
+
+    # jus
+    if syl.value == 'jus':
+        if syl.tail.startswith('t'):
+            # e.g. justitie (justisie)
+            return 'jus'
+        else:
+            # e.g. juskom (zjukom)
+            return 'zju'
+
+    #
     # vowels (klinkers)
     #
 

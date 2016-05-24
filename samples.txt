@@ -381,3 +381,14 @@ tot drie: 1, 2, 3. / tot drie: 1, 2, 3.
 #
 
 't is 'n mooie dag. / 't is 'n mauie dag.
+
+
+# jus
+jus / zju
+juskom / zjukom
+jusblokje / zjublokje
+justeren / justere
+justitie / justisie
+justitiepaleis / justisiepalès
+justitiële / justisjeile
+justitioneel / justisiauneil
