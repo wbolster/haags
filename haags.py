@@ -512,11 +512,6 @@ def translate_syllable(syl):
         # e.g. adequaat (adekwaat)
         onset = 'kw'
 
-    # -si wordt -sie
-    if syl.value == 'si':
-        # e.g. quasi (kwasie)
-        nucleus = 'ie'
-
     # -c wordt -k
     if syl.coda == 'c':
         coda = 'k'
