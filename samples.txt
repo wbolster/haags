@@ -109,11 +109,6 @@ situatie / situwasie
 menstruatie / menstruwasie
 actualisatie / actuwalisasie
 nuance / nuanse
-adequaat / adekwaat
-adequate / adekwate
-adequater / adekwatâh
-adequaatst / adekwaats
-quasi / kwasi
 
 # aa
 baas / baas
@@ -130,6 +125,18 @@ waar / waah
 #
 # medeklinkers
 #
+
+# qua
+adequaat / adekwaat
+adequate / adekwate
+adequater / adekwatâh
+adequaatst / adekwaats
+quasi / kwasi
+
+# quent
+inconsequent / inkonsekwent
+inconsequentie / inkonsekwensie
+inconsequenties / inkonsekwensies
 
 # -t
 tot / tot

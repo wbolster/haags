@@ -507,7 +507,7 @@ def translate_syllable(syl):
             # e.g. bakt (bak), nacht (nach), zwart (zwagt)
             coda = syl.coda[:-1]
 
-    # qua- wordt kwa-
+    # qua- wordt kwa-, -quent- wordt -kwent-
     if syl.onset == 'qu':
         # e.g. adequaat (adekwaat)
         onset = 'kw'
