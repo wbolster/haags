@@ -512,11 +512,14 @@ def translate_syllable(syl):
         # e.g. adequaat (adekwaat)
         onset = 'kw'
 
-    # -c wordt -k
     # va- wordt soms ve-
     if syl.value == 'va' and syl.tail.startswith(('kant', 'cant')):
         # e.g. vakantie (vekansie), vacant (vecant)
         return 've', 1
+
+    # c wordt vaak een k
+    if syl.onset == 'c' and not syl.nucleus.startswith(('i', 'e')):
+        onset = 'k'
     if syl.coda == 'c':
         coda = 'k'
 
