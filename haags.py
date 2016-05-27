@@ -390,7 +390,7 @@ def translate_syllable(syl):
             return 'jus', 1
         else:
             # e.g. juskom (zjukom)
-            return 'zju'
+            return 'zju', 1
 
     #
     # vowels (klinkers)
@@ -478,6 +478,15 @@ def translate_syllable(syl):
     #
     # consonants / medeklinkers
     #
+
+    # -isch wordt -ies, -ische wordt -iese
+    if syl.rime == 'isch':
+        # e.g. basisch (basies)
+        return syl.onset + 'ies', 1
+    elif (syl.rime == 'i' and
+          syl.next and syl.next.value in {'sche', 'schen'}):
+        # e.g. basische (basiese), harmonischen (harmauniese)
+        return syl.onset + 'iese', 2
 
     # uitgang -t na een andere medeklinker vervalt in de meeste gevallen
     if len(syl.coda) >= 2 and syl.coda.endswith('t'):

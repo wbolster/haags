@@ -321,9 +321,21 @@ neer / neâh
 # -en wordt -e (alleen eind van woord)
 # -en mag ook -ûh aan einde van de zin
 
-# verkleinwoorden krijgen -ie
-bakje koffie / bakkie koffie
+# -isch
+episch / epies
+basisch / basies
+basische / basiese
+chemisch / chemies
+conisch / caunies
+elektrisch / eilektries
+automatisch / âhtaumaties
+Perzisch / Perzies
+tactisch / takties
+tactische / taktiese
+harmonischen / hâhmauniese
 
+# verkleinwoorden
+bakje koffie / bakkie koffie
 huisje / hùissie
 boompje / baumpie
 beestje / beissie
