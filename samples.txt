@@ -153,6 +153,7 @@ krenkt / krenk
 bakt / bak
 fietst / fiets
 valt / valt
+vent / vent
 baltst / balts
 harst / hags
 wringt / wring

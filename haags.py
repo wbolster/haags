@@ -497,8 +497,8 @@ def translate_syllable(syl):
         elif syl.coda.startswith('r'):
             # e.g. kort (kogt), wordt (wogt), harst (hags)
             pass  # handled elsewhere
-        elif syl.coda == 'lt':
-            # e.g. valt (valt)
+        elif syl.coda in {'lt', 'nt'}:
+            # e.g. valt (valt), vent (vent)
             pass
         elif syl.rime == 'angt':
             # e.g. hangt (hank)
