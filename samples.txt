@@ -107,7 +107,7 @@ diarree / diarei
 # ua
 situatie / situwasie
 menstruatie / menstruwasie
-actualisatie / actuwalisasie
+actualisatie / aktuwalisasie
 nuance / nuanse
 
 # aa
