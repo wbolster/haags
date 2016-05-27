@@ -138,6 +138,11 @@ inconsequent / inkonsekwent
 inconsequentie / inkonsekwensie
 inconsequenties / inkonsekwensies
 
+# va-
+vacant / vekant
+vakantie / vekansie
+vakanties / vekansies
+
 # -t
 tot / tot
 rot / rot

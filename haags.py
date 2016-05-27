@@ -513,6 +513,10 @@ def translate_syllable(syl):
         onset = 'kw'
 
     # -c wordt -k
+    # va- wordt soms ve-
+    if syl.value == 'va' and syl.tail.startswith(('kant', 'cant')):
+        # e.g. vakantie (vekansie), vacant (vecant)
+        return 've', 1
     if syl.coda == 'c':
         coda = 'k'
 
