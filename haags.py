@@ -372,7 +372,7 @@ SYLLABLES = {
 def translate_syllable(syl):
     translated = SYLLABLES.get(syl.value)
     if translated is not None:
-        return translated
+        return translated, 1
 
     # defaults serving as the starting point
     onset = syl.onset
@@ -387,7 +387,7 @@ def translate_syllable(syl):
     if syl.value == 'jus':
         if syl.tail.startswith('t'):
             # e.g. justitie (justisie)
-            return 'jus'
+            return 'jus', 1
         else:
             # e.g. juskom (zjukom)
             return 'zju'
@@ -580,7 +580,7 @@ def translate_syllable(syl):
             # TODO: -sens kussens
             # TODO: meer -ens
 
-    return onset + nucleus + coda
+    return onset + nucleus + coda, 1
 
 
 def pairwise(iterable):  # from itertools recipes
@@ -615,7 +615,12 @@ def split_into_syllables(word):
 
 def translate_using_syllables(word):
     syllables = split_into_syllables(word)
-    return ''.join(translate_syllable(syl) for syl in syllables)
+    out = []
+    while syllables:
+        translated, n = translate_syllable(syllables[0])
+        out.append(translated)
+        syllables = syllables[n:]
+    return ''.join(out)
 
 
 #
