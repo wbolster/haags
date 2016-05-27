@@ -517,6 +517,10 @@ def translate_syllable(syl):
         # e.g. quasi (kwasie)
         nucleus = 'ie'
 
+    # -c wordt -k
+    if syl.coda == 'c':
+        coda = 'k'
+
     # - TODO de r na een korte klank wordt een g
     # - de r na een lange a wordt een h
     # - na overige klanken wordt de r een âh
