@@ -488,6 +488,11 @@ def translate_syllable(syl):
         # e.g. basische (basiese), harmonischen (harmauniese)
         return syl.onset + 'iese', 2
 
+    # offi- wordt offe-
+    if syl.value == 'of' and syl.next and syl.next.value == 'fi':
+        # e.g. officieel (offesjeil)
+        return 'offe', 2
+
     # uitgang -t na een andere medeklinker vervalt in de meeste gevallen
     if len(syl.coda) >= 2 and syl.coda.endswith('t'):
         # -kt/-ct wordt -k
