@@ -488,6 +488,18 @@ def translate_syllable(syl):
         # e.g. basische (basiese), harmonischen (harmauniese)
         return syl.onset + 'iese', 2
 
+    # -cie wordt -sie, -cieel wordt -sjeil
+    if syl.value.startswith('cie'):
+        return 's' + syl.value[1:], 1
+    elif syl.value == 'ci' and syl.next:
+        if syl.next.value == 'ë':
+            # e.g. officiële (offesjeile)
+            return 'sjei', 2
+        elif not syl.next.onset:
+            # e.g. officieel (offesjeil)
+            onset = 'sj'
+            nucleus = ''
+
     # offi- wordt offe-
     if syl.value == 'of' and syl.next and syl.next.value == 'fi':
         # e.g. officieel (offesjeil)

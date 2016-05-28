@@ -331,6 +331,20 @@ peer / peâh
 neer / neâh
 
 # -tie wordt -sie
+# cie
+facie / fasie
+financieel / finansjeil
+financier / finansier
+imbeciel / imbesiel
+impliciet / implisiet
+officieel / offesjeil
+officier / offesier
+officiële / offesjeile
+provincie / prauvinsie
+provincies / prauvinsies
+officieus / offesjuis
+officieuze / offesjuize
+
 # -en wordt -e (alleen eind van woord)
 # -en mag ook -ûh aan einde van de zin
 
