@@ -429,6 +429,7 @@ def translate_syllable(syl: Syllable) -> Tuple[str, int]:
             else:
                 # e.g. bangelijk (bangelijk), eigenlijk (ègelijk),
                 # mogelijk (maugelijk),
+                # TODO: aanzienlijk (anzienlek) ?
                 pass
         else:
             # e.g. kijk (kèk), krijg (krèg)
