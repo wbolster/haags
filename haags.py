@@ -505,7 +505,7 @@ def translate_syllable(syl: Syllable) -> Tuple[str, int]:
         # e.g. basisch (basies)
         return syl.onset + "ies", 1
     elif syl.rime == "i" and syl.next and syl.next.value in {"sche", "schen"}:
-        # e.g. basische (basiese), harmonischen (harmauniese)
+        # e.g. basische (basiese), harmonische (harmauniese)
         return syl.onset + "iese", 2
 
     # -cie wordt -sie, -cieel wordt -sjeil
