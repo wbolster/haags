@@ -644,6 +644,11 @@ def translate_syllable(syl: Syllable) -> Tuple[str, int]:
             # TODO: -sens kussens
             # TODO: meer -ens
 
+        # Uitgang -en wordt -e of -ûh (aan einde zin).
+        # TODO
+        elif syl.rime == "en":
+            coda = ""
+
     return onset + nucleus + coda, 1
 
 
