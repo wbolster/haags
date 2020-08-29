@@ -187,6 +187,7 @@ ALL_CONTRACTIONS = {
     "met me": "memme",
     "mij het": "mènnut",
     "niet dan": "niettan",
+    "of er": "oftâh",
     "omdat ik": "omdattik",
     "op een": "oppun",
     "val ik": "vallik",
