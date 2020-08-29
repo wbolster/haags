@@ -436,8 +436,8 @@ def translate_syllable(syl: Syllable) -> Tuple[str, int]:
             # e.g. kijk (kèk), krijg (krèg)
             nucleus = "è"
 
-    # lange o wordt au
-    if syl.nucleus == "oo" and syl.rime != "oor":
+    # lange o wordt au, maar niet voor een -r.
+    if syl.nucleus == "oo" and not syl.coda.startswith("r"):
         nucleus = "au"
     elif syl.nucleus == "o" and syl.open:
         nucleus = "au"
@@ -578,8 +578,18 @@ def translate_syllable(syl: Syllable) -> Tuple[str, int]:
     # - na overige klanken wordt de r een âh
     # - uitgang -eer wordt -eâh
     # TODO: coda.startswith('r'), e.g. barst (bagst)
+    # TODO: drop -t?
     if syl.coda.startswith("r"):
-        r_codas = ("r", "rt", "rs", "rst")
+        r_codas = ("r", "rs", "rst", "rt", "rts")
+        # todo: -rd? gehoord?
+        vowel_map = {
+            "e": "âh",
+            "ee": "eâh",
+            "eu": "euâh",
+            "ie": "ieâh",
+            "oo": "oâh",
+            "uu": "uâh",
+        }
         if syl.rime == "ar":
             # e.g. bar (bâh)
             nucleus = "âh"
@@ -587,26 +597,11 @@ def translate_syllable(syl: Syllable) -> Tuple[str, int]:
         elif syl.rime == "aar":
             # e.g. naar (naah)
             coda = "h"
-        elif syl.nucleus == "oo":
-            # e.g. door (doâh)
-            nucleus = "oâh"
+        elif syl.nucleus in vowel_map and syl.coda in r_codas:
+            # e.g. lekker (lekkâh), weigert (wègâht), lekkerst (lekkâhst),
+            # duurt (duâht), voorts (voâhts)
+            nucleus = vowel_map[syl.nucleus]
             coda = syl.coda.lstrip("r")
-        elif syl.nucleus == "ee" and syl.coda in r_codas:
-            nucleus = "eâh"
-            coda = syl.coda.lstrip("r")
-        elif syl.nucleus == "ie" and syl.coda in r_codas:
-            nucleus = "ieâh"
-            coda = syl.coda.lstrip("r")
-        elif syl.nucleus == "uu" and syl.coda in r_codas:
-            nucleus = "uâh"
-            coda = syl.coda.lstrip("r")
-        elif syl.nucleus == "e" and syl.coda in r_codas:
-            # e.g. lekker (lekkâh), weigert (wègâht), lekkerst (lekkâhst)
-            nucleus = "âh"
-            coda = syl.coda.lstrip("r")
-        # TODO: maybe generalise repeated logic above
-
-        # TODO: drop -t
 
     # Lettergrepen eindigend op een vloeiklank (l of r) gevolgd
     # door een medeklinker krijgen soms een extra lettergreep:
