@@ -297,7 +297,7 @@ ONECHTE_TWEEKLANKEN = ["ai", "oi", "aai", "ooi", "oe", "eeuw", "ieuw"]
 # Alternate spellings, mostly in loan words and for
 # disambiguating clashing vowels (klinkerbotsing).
 GEDEKTE_KLINKERS += [
-    "ah",  # e.g. ayatollah, bah,
+    "ah",  # e.g. ayatollah, bah
     "è",  # e.g. scène, barrière
     "ë",  # e.g. België, patiënt, skiën
     "ï",  # e.g. beïnvloeden
@@ -440,10 +440,6 @@ def translate_syllable(syl: Syllable) -> Tuple[str, int]:
     if syl.nucleus == "oo" and syl.rime != "oor":
         nucleus = "au"
     elif syl.nucleus == "o" and syl.open:
-        nucleus = "au"
-    elif syl.nucleus == "zô":  # pythen oddity
-        # e.g. zône (zaune)
-        onset = "z"
         nucleus = "au"
     elif syl.nucleus in ("ooi", "ooie"):  # pyphen oddity
         nucleus = "au" + syl.nucleus[2:]
