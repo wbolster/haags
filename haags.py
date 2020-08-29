@@ -9,49 +9,50 @@ from typing import Dict, Iterable, Iterator, List, Sequence, Tuple, TypeVar
 import attr
 import pyphen
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 
 #
 # Letter case
 #
 
+
 def apply_case_hack(s: str) -> str:
     # Hacky unicode 'ij' ligature
-    return s.replace('ij', 'ĳ').replace('IJ', 'Ĳ')
+    return s.replace("ij", "ĳ").replace("IJ", "Ĳ")
 
 
 def undo_case_hack(s: str) -> str:
-    return s.replace('ĳ', 'ij').replace('Ĳ', 'IJ')
+    return s.replace("ĳ", "ij").replace("Ĳ", "IJ")
 
 
 def detect_case(s: str) -> str:
     s = apply_case_hack(s)
     if not s:
-        case = 'other'
+        case = "other"
     elif s == s.upper():
-        case = 'upper'
+        case = "upper"
     elif s == s.lower():
-        case = 'lower'
+        case = "lower"
     elif s[0].isupper() and s[1:] == s[1:].lower():
-        case = 'sentence'
+        case = "sentence"
     elif s == s.title():
-        case = 'title'
+        case = "title"
     else:
-        case = 'other'
+        case = "other"
     return case
 
 
 def recase(s: str, case: str) -> str:
     """Change letter case of a string."""
     s = apply_case_hack(s)
-    if case == 'lower':
+    if case == "lower":
         s = s.lower()
-    elif case == 'upper':
+    elif case == "upper":
         s = s.upper()
-    elif case == 'sentence':
+    elif case == "sentence":
         s = s[0].upper() + s[1:].lower()
-    elif case == 'title':
+    elif case == "title":
         s = s.title()
     s = undo_case_hack(s)
     return s
@@ -62,22 +63,25 @@ def recase(s: str, case: str) -> str:
 #
 
 # Matches runs of whitespace.
-WHITESPACE_RE = re.compile(r'(\s+)')
+WHITESPACE_RE = re.compile(r"(\s+)")
 
 # Matches numbers, optionally with separator dots and commas. May not
 # have a word character directly after it (e.g. does not match "123abc").
-NUMBER_RE = re.compile(r'(\d+(?:[,.]\d+)*)(?!\w\s)')
+NUMBER_RE = re.compile(r"(\d+(?:[,.]\d+)*)(?!\w\s)")
 
 # Matches "words", including the shorthands "'n", "'r" , and "'t".
 # Matches may include digits and underscores.
 WORD_RE = re.compile(r"([\w-]+|'[nrt])\b")
 
 # Matches punctuation characters that may occur in normal text.
-PUNCTUATION_CHARS = (
-    ".?!"  # terminators
-    ",:;-"  # separators
-    "\"'“”‘’„‚"  # quotation marks
-    "&/")  # misc
+PUNCTUATION_CHARS = "".join(
+    [
+        ".?!",  # terminators
+        ",:;-",  # separators
+        "\"'“”‘’„‚",  # quotation marks
+        "&/",  # misc
+    ]
+)
 PUNCTUATION_RE = re.compile(r'([{}]+)'.format(re.escape(PUNCTUATION_CHARS)))
 
 
@@ -88,14 +92,14 @@ def is_regular_word(s: str) -> bool:
 
 
 @attr.s(init=False, slots=True)
-class Token():
+class Token:
     TYPES = {
-        'word',
-        'whitespace',
-        'punctuation',
-        'number',
-        'other',
-        'translated',
+        "word",
+        "whitespace",
+        "punctuation",
+        "number",
+        "other",
+        "translated",
     }
 
     value = attr.ib()
@@ -108,20 +112,21 @@ class Token():
         self.value_lower = value.lower()
         assert type in self.TYPES
         self.type = type
-        self.case = detect_case(value) if self.type == 'word' else None
+        self.case = detect_case(value) if self.type == "word" else None
 
 
-WHITESPACE_TOKEN = Token(' ', 'whitespace')
+WHITESPACE_TOKEN = Token(" ", "whitespace")
 
 
 def tokenize(s: str) -> Iterator[Token]:
     regexes_with_token_types = [  # This is an ordered list.
-        (WHITESPACE_RE, 'whitespace'),
-        (NUMBER_RE, 'number'),
-        (WORD_RE, 'word'),
-        (PUNCTUATION_RE, 'punctuation')]
+        (WHITESPACE_RE, "whitespace"),
+        (NUMBER_RE, "number"),
+        (WORD_RE, "word"),
+        (PUNCTUATION_RE, "punctuation"),
+    ]
 
-    junk = ''  # Accumulates unknown input.
+    junk = ""  # Accumulates unknown input.
     pos = 0
     while pos < len(s):
         for regex, token_type in regexes_with_token_types:
@@ -129,18 +134,18 @@ def tokenize(s: str) -> Iterator[Token]:
             if m is None:
                 continue
             if junk:  # Emit pending junk, if any.
-                yield Token(junk, type='other')
-                junk = ''
+                yield Token(junk, type="other")
+                junk = ""
             value = m.group()
             assert value
-            if token_type == 'word' and not is_regular_word(value):
-                token_type = 'other'
+            if token_type == "word" and not is_regular_word(value):
+                token_type = "other"
             yield Token(value, type=token_type)
             pos = m.end()
             break
         else:
             junk += s[pos]
-            pos += 1   # FIXME
+            pos += 1  # FIXME
 
 
 #
@@ -209,8 +214,8 @@ def words_from_tokens(tokens: Sequence[Token], offset: int, n: int) -> str:
     """
     Obtain `n` words from `tokens` as a single string, starting at `offset`.
     """
-    g = (t.value_lower for t in tokens[offset:] if t.type == 'word')
-    return ' '.join(itertools.islice(g, n))
+    g = (t.value_lower for t in tokens[offset:] if t.type == "word")
+    return " ".join(itertools.islice(g, n))
 
 
 def make_token_type_string(
@@ -220,14 +225,14 @@ def make_token_type_string(
     # token type. "Hallo, wereld!" becomes "w, w," (word, punctuation,
     # space, ...).
     mapping = {
-        'word': 'w',
-        'whitespace': ' ',
-        'punctuation': ',',
-        'number': '1',
-        'other': '_',
-        'translated': 't',
+        "word": "w",
+        "whitespace": " ",
+        "punctuation": ",",
+        "number": "1",
+        "other": "_",
+        "translated": "t",
     }
-    s = ''.join(mapping[t.type] for t in tokens)
+    s = "".join(mapping[t.type] for t in tokens)
     return s
 
 
@@ -253,8 +258,8 @@ def apply_contractions(tokens: Sequence[Token]) -> List[Token]:
         # Look for space separated words (e.g. "w w w)", followed by
         # either whitespace or punctuation+whitespace.
         types_str = make_token_type_string(tokens)
-        base_pattern = ' '.join(['w'] * size)
-        pattern = re.compile(r'{}(?= |, )'.format(base_pattern))
+        base_pattern = " ".join(["w"] * size)
+        pattern = re.compile(r"{}(?= |, )".format(base_pattern))
         pos = 0
         while True:
             m = pattern.search(types_str, pos)
@@ -266,7 +271,7 @@ def apply_contractions(tokens: Sequence[Token]) -> List[Token]:
             if not replacement:
                 continue
             replacement = recase(replacement, tokens[m.start()].case)
-            tokens[m.start():m.end()] = [Token(replacement, 'translated')]
+            tokens[m.start() : m.end()] = [Token(replacement, "translated")]
             types_str = make_token_type_string(tokens)  # refresh
 
     # Remove whitespace wrapping.
@@ -283,28 +288,28 @@ def apply_contractions(tokens: Sequence[Token]) -> List[Token]:
 
 # Vowels can be written in various ways. See
 # https://nl.wikipedia.org/wiki/Klinker_(klank)
-GEDEKTE_KLINKERS = ['a', 'e', 'i', 'o', 'u']
-VRIJE_KLINKERS = ['aa', 'ee', 'ie', 'oo', 'uu', 'eu', 'oe']
-ZUIVERE_TWEEKLANKEN = ['ei', 'ij', 'ui', 'ou', 'au']
-ONECHTE_TWEEKLANKEN = ['ai', 'oi', 'aai', 'ooi', 'oe', 'eeuw', 'ieuw']
+GEDEKTE_KLINKERS = ["a", "e", "i", "o", "u"]
+VRIJE_KLINKERS = ["aa", "ee", "ie", "oo", "uu", "eu", "oe"]
+ZUIVERE_TWEEKLANKEN = ["ei", "ij", "ui", "ou", "au"]
+ONECHTE_TWEEKLANKEN = ["ai", "oi", "aai", "ooi", "oe", "eeuw", "ieuw"]
 
 # Alternate spellings, mostly in loan words and for
 # disambiguating clashing vowels (klinkerbotsing).
 GEDEKTE_KLINKERS += [
-    'ah',  # e.g. ayatollah, bah,
-    'è',  # e.g. scène, barrière
-    'ë',  # e.g. België, patiënt, skiën
-    'ï',  # e.g. beïnvloeden
+    "ah",  # e.g. ayatollah, bah,
+    "è",  # e.g. scène, barrière
+    "ë",  # e.g. België, patiënt, skiën
+    "ï",  # e.g. beïnvloeden
 ]
 ZUIVERE_TWEEKLANKEN += [
-    'auw',  # e.g. rauw
-    'ouw',  # e.g. rouw
+    "auw",  # e.g. rauw
+    "ouw",  # e.g. rouw
 ]
 VRIJE_KLINKERS += [
-    'é',  # e.g. coupé
-    'éé',  # e.g. één
-    'ée',  # e.g. brûlée
-    'ü',  # e.g. bühne, continuüm, reünie
+    "é",  # e.g. coupé
+    "éé",  # e.g. één
+    "ée",  # e.g. brûlée
+    "ü",  # e.g. bühne, continuüm, reünie
 ]
 # TODO: ä, e.g. hutenkäse, knäckebröd, salonfähig
 # TODO: ö, e.g. coördinator, röntgen, zoölogie
@@ -312,14 +317,15 @@ VRIJE_KLINKERS += [
 # TODO: sjwa 'e', e.g. de, lade
 
 VOWELS = sorted(
-    ONECHTE_TWEEKLANKEN + ZUIVERE_TWEEKLANKEN +
-    VRIJE_KLINKERS + GEDEKTE_KLINKERS,
-    key=len, reverse=True)
-CONSONANTS = 'bcçdfghjklmnpqrstvwxz'
+    ONECHTE_TWEEKLANKEN + ZUIVERE_TWEEKLANKEN + VRIJE_KLINKERS + GEDEKTE_KLINKERS,
+    key=len,
+    reverse=True,
+)
+CONSONANTS = "bcçdfghjklmnpqrstvwxz"
 
 
 @attr.s(init=False, slots=True)
-class Syllable():
+class Syllable:
     """
     Container for a single syllable and its context.
 
@@ -364,7 +370,7 @@ class Syllable():
         else:
             # This is not a normal syllable. TODO: do something more
             # sensible than this for cases that occur in normal text.
-            self.onset, self.nucleus, self.coda = '', value, ''
+            self.onset, self.nucleus, self.coda = "", value, ""
 
         self.rime = self.nucleus + self.coda
         self.open = False if self.coda else True
@@ -392,228 +398,234 @@ def translate_syllable(syl: Syllable) -> Tuple[str, int]:
     #
 
     # jus
-    if syl.value == 'jus':
-        if syl.tail.startswith('t'):
+    if syl.value == "jus":
+        if syl.tail.startswith("t"):
             # e.g. justitie (justisie)
-            return 'jus', 1
+            return "jus", 1
         else:
             # e.g. juskom (zjukom)
-            return 'zju', 1
+            return "zju", 1
 
     #
     # vowels (klinkers)
     #
 
     # ei en ij worden è, behalve in -lijk/-lijkheid
-    if syl.nucleus in ('ei', 'ij'):
-        if syl.value in ('lijk', 'lijks') or (
-                syl.value == 'lij' and syl.tail.startswith('k')):
+    if syl.nucleus in ("ei", "ij"):
+        if syl.value in ("lijk", "lijks") or (
+            syl.value == "lij" and syl.tail.startswith("k")
+        ):
             if not syl.head:
                 # e.g. lijk (lèk), lijkwit (lèkwit)
-                nucleus = 'è'
-            elif syl.head == 'ge':
+                nucleus = "è"
+            elif syl.head == "ge":
                 # e.g. gelijk (gelèk), gelijkheid (gelèkhèd)
-                nucleus = 'è'
-            elif syl.head.endswith((
-                    'insge', 'isge', 'onge', 'rechts', 'tege', 'verge')):
+                nucleus = "è"
+            elif syl.head.endswith(
+                ("insge", "isge", "onge", "rechts", "tege", "verge")
+            ):
                 # e.g. ongelijk (ongelèk), tegelijk (tegelèk)
-                nucleus = 'è'
+                nucleus = "è"
             else:
                 # e.g. bangelijk (bangelijk), eigenlijk (ègelijk),
                 # mogelijk (maugelijk),
                 pass
         else:
             # e.g. kijk (kèk), krijg (krèg)
-            nucleus = 'è'
+            nucleus = "è"
 
     # lange o wordt au
-    if syl.nucleus == 'oo' and syl.rime != 'oor':
-        nucleus = 'au'
-    elif syl.nucleus == 'o' and syl.open:
-        nucleus = 'au'
-    elif syl.nucleus in ('ooi', 'ooie'):  # pyphen oddity
-        nucleus = 'au' + syl.nucleus[2:]
+    if syl.nucleus == "oo" and syl.rime != "oor":
+        nucleus = "au"
+    elif syl.nucleus == "o" and syl.open:
+        nucleus = "au"
+    elif syl.nucleus in ("ooi", "ooie"):  # pyphen oddity
+        nucleus = "au" + syl.nucleus[2:]
 
     # au/ou wordt âh
-    if syl.nucleus in ('au', 'auw', 'ou', 'ouw'):
+    if syl.nucleus in ("au", "auw", "ou", "ouw"):
         # -ouw/-auw verliezen de -w,
         # e.g. saus, rauw, nou, jouw
-        nucleus = 'âh'
-        if syl.value == 'houd':
+        nucleus = "âh"
+        if syl.value == "houd":
             # -houd verliest soms de -d
             if syl.previous and syl.previous.value in (
-                    'be', 'der', 'huis', 'in', 'ont'):
+                "be",
+                "der",
+                "huis",
+                "in",
+                "ont",
+            ):
                 # e.g. behoud (behâhd), inhoud (inhâhd).
                 pass
             else:
                 # e.g. houd (hâh), aanhoud (anhâh)
-                coda = ''
-    elif syl.previous and syl.previous.rime == 'ou':
+                coda = ""
+    elif syl.previous and syl.previous.rime == "ou":
         # -oude- wordt meestal -âhwe-
-        if syl.value == 'de':
+        if syl.value == "de":
             # e.g. oude (âhwe), oudere (âhwere)
-            onset = 'w'
-        elif syl.value == 'der':
+            onset = "w"
+        elif syl.value == "der":
             # e.g. pashouder (pashâhwâh)
-            onset = 'w'
-            nucleus = 'âh'
-            coda = ''
-        elif syl.value == 'den':
-            onset = 'w'
-            nucleus = 'e'
-            coda = ''
+            onset = "w"
+            nucleus = "âh"
+            coda = ""
+        elif syl.value == "den":
+            onset = "w"
+            nucleus = "e"
+            coda = ""
 
     # - ui wordt ùi
-    if syl.nucleus == 'ui':
+    if syl.nucleus == "ui":
         # e.g. rui (rùik)
-        nucleus = 'ùi'
+        nucleus = "ùi"
 
     # eu wordt ui, behalve als een r volgt
-    if syl.nucleus == 'eu' and not syl.coda.startswith('r'):
-        nucleus = 'ui'
+    if syl.nucleus == "eu" and not syl.coda.startswith("r"):
+        nucleus = "ui"
 
     # - lange e wordt ei
     #   TODO: er zijn nog meer lange e, maar om dat vast te stellen heb
     #   je de volgende lettergreep nodig
-    if syl.nucleus in ('ee', 'é', 'éé', 'ée') and syl.rime != 'eer':
-        nucleus = 'ei'
+    if syl.nucleus in ("ee", "é", "éé", "ée") and syl.rime != "eer":
+        nucleus = "ei"
 
     # -ua- wordt -uwa-
-    if syl.value == 'a' and syl.previous and syl.previous.rime == 'u':
+    if syl.value == "a" and syl.previous and syl.previous.rime == "u":
         # e.g. situatie (situwasie)
-        onset = 'w'
+        onset = "w"
 
     #
     # consonants / medeklinkers
     #
 
     # -isch wordt -ies, -ische wordt -iese
-    if syl.rime == 'isch':
+    if syl.rime == "isch":
         # e.g. basisch (basies)
-        return syl.onset + 'ies', 1
-    elif (syl.rime == 'i' and
-          syl.next and syl.next.value in {'sche', 'schen'}):
+        return syl.onset + "ies", 1
+    elif syl.rime == "i" and syl.next and syl.next.value in {"sche", "schen"}:
         # e.g. basische (basiese), harmonischen (harmauniese)
-        return syl.onset + 'iese', 2
+        return syl.onset + "iese", 2
 
     # -cie wordt -sie, -cieel wordt -sjeil
-    if syl.value.startswith('cie'):
-        return 's' + syl.value[1:], 1
-    elif syl.value == 'ci' and syl.next:
-        if syl.next.value == 'ë':
+    if syl.value.startswith("cie"):
+        return "s" + syl.value[1:], 1
+    elif syl.value == "ci" and syl.next:
+        if syl.next.value == "ë":
             # e.g. officiële (offesjeile)
-            return 'sjei', 2
+            return "sjei", 2
         elif not syl.next.onset:
             # e.g. officieel (offesjeil)
-            onset = 'sj'
-            nucleus = ''
+            onset = "sj"
+            nucleus = ""
 
     # offi- wordt offe-
-    if syl.value == 'of' and syl.next and syl.next.value == 'fi':
+    if syl.value == "of" and syl.next and syl.next.value == "fi":
         # e.g. officieel (offesjeil)
-        return 'offe', 2
+        return "offe", 2
 
     # uitgang -t na een andere medeklinker vervalt in de meeste gevallen
-    if len(syl.coda) >= 2 and syl.coda.endswith('t'):
+    if len(syl.coda) >= 2 and syl.coda.endswith("t"):
         # -kt/-ct wordt -k
-        if syl.coda == 'ct':
+        if syl.coda == "ct":
             # e.g. respect (respek)
-            coda = 'k'
-        elif syl.coda.startswith('r'):
+            coda = "k"
+        elif syl.coda.startswith("r"):
             # e.g. kort (kogt), wordt (wogt), harst (hags)
             pass  # handled elsewhere
-        elif syl.coda in {'lt', 'nt'}:
+        elif syl.coda in {"lt", "nt"}:
             # e.g. valt (valt), vent (vent)
             pass
-        elif syl.rime == 'angt':
+        elif syl.rime == "angt":
             # e.g. hangt (hank)
-            coda = 'nk'
+            coda = "nk"
         else:
             # e.g. bakt (bak), nacht (nach), zwart (zwagt)
             coda = syl.coda[:-1]
 
     # qua- wordt kwa-, -quent- wordt -kwent-
-    if syl.onset == 'qu':
+    if syl.onset == "qu":
         # e.g. adequaat (adekwaat)
-        onset = 'kw'
+        onset = "kw"
 
     # va- wordt soms ve-
-    if syl.value == 'va' and syl.tail.startswith(('kant', 'cant')):
+    if syl.value == "va" and syl.tail.startswith(("kant", "cant")):
         # e.g. vakantie (vekansie), vacant (vecant)
-        return 've', 1
+        return "ve", 1
 
     # c wordt vaak een k
-    if syl.onset == 'c' and not syl.nucleus.startswith(('i', 'e')):
-        onset = 'k'
-    if syl.coda == 'c':
-        coda = 'k'
+    if syl.onset == "c" and not syl.nucleus.startswith(("i", "e")):
+        onset = "k"
+    if syl.coda == "c":
+        coda = "k"
 
     # - TODO de r na een korte klank wordt een g
     # - de r na een lange a wordt een h
     # - na overige klanken wordt de r een âh
     # - uitgang -eer wordt -eâh
     # TODO: coda.startswith('r'), e.g. barst (bagst)
-    if syl.coda.startswith('r'):
-        if syl.rime == 'ar':
+    if syl.coda.startswith("r"):
+        if syl.rime == "ar":
             # e.g. bar (bâh)
-            nucleus = 'âh'
-            coda = ''
-        elif syl.rime == 'aar':
+            nucleus = "âh"
+            coda = ""
+        elif syl.rime == "aar":
             # e.g. naar (naah)
-            coda = 'h'
-        elif syl.nucleus == 'oo' and syl.coda.startswith('r'):
+            coda = "h"
+        elif syl.nucleus == "oo" and syl.coda.startswith("r"):
             # e.g. door (doâh)
-            nucleus = 'o'
-            coda = 'âh' + syl.coda[1:]
-        elif syl.rime == 'eer':
-            nucleus = 'e'
-            coda = 'âh'
-        elif syl.rime == 'ier':
-            nucleus = 'ie'
-            coda = 'âh'
-        elif syl.rime == 'uur':
-            nucleus = 'u'
-            coda = 'âh'
-        elif syl.rime == 'er':
+            nucleus = "o"
+            coda = "âh" + syl.coda[1:]
+        elif syl.rime == "eer":
+            nucleus = "e"
+            coda = "âh"
+        elif syl.rime == "ier":
+            nucleus = "ie"
+            coda = "âh"
+        elif syl.rime == "uur":
+            nucleus = "u"
+            coda = "âh"
+        elif syl.rime == "er":
             pass  # TODO
-        elif coda == 'r':
-            coda = 'âh'
+        elif coda == "r":
+            coda = "âh"
         # TODO: drop -t
 
     # Lettergrepen eindigend op een vloeiklank (l of r) gevolgd
     # door een medeklinker krijgen soms een extra lettergreep:
     # medeklinkerverdubbeling en een tussen-a, tussen-e, of-u.
-    if syl.rime == 'urg':
+    if syl.rime == "urg":
         # e.g. voorburg (voâhburrag)
-        coda = 'rrag' + syl.coda[3:]
-    elif syl.coda.startswith(('l', 'r')) and len(syl.coda) > 1:
+        coda = "rrag" + syl.coda[3:]
+    elif syl.coda.startswith(("l", "r")) and len(syl.coda) > 1:
         # FIXME: do not clash with r- coda handling above
-        if syl.coda.startswith((
-                'lf', 'lg', 'lk', 'lm', 'lp',
-                'rf', 'rg', 'rm', 'rn', 'rp')):
+        if syl.coda.startswith(
+            ("lf", "lg", "lk", "lm", "lp", "rf", "rg", "rm", "rn", "rp")
+        ):
             # e.g. volk (volluk), zorg (zorrug)
-            coda = syl.coda[0] + syl.coda[0] + 'u' + syl.coda[1:]
-        elif syl.coda.startswith('rk'):
+            coda = syl.coda[0] + syl.coda[0] + "u" + syl.coda[1:]
+        elif syl.coda.startswith("rk"):
             # e.g. sterkte (sterrekte)
-            coda = syl.coda[0] + syl.coda[0] + 'e' + syl.coda[1:]
+            coda = syl.coda[0] + syl.coda[0] + "e" + syl.coda[1:]
 
     # Suffixes
     if syl.head:
 
         # Uitgang -ens wordt meestal -es.
-        if syl.rime == 'ens':
-            if syl.onset in ('g', 'k', 't', 'v'):
+        if syl.rime == "ens":
+            if syl.onset in ("g", "k", "t", "v"):
                 # e.g. volgens (volges), tekens (teikes), gewetens
                 # (geweites), havens (haves)
                 # TODO: uitzonderingen? intens
-                coda = 's'
-            elif syl.onset == 'd' and not syl.head.endswith(('ca', 'ten')):
+                coda = "s"
+            elif syl.onset == "d" and not syl.head.endswith(("ca", "ten")):
                 # e.g. heidens (hèdes), niet cadens, tendens
-                coda = 's'
-            elif syl.onset == 'r' and not syl.head.endswith('fo'):
+                coda = "s"
+            elif syl.onset == "r" and not syl.head.endswith("fo"):
                 # e.g. varens (vares)
                 # TODO: meer uitzonderingen
-                coda = 's'
+                coda = "s"
             # TODO: -lens  molens cameralens
             # TODO: -mens  examens aapmens
             # TODO: -pens  wapens
@@ -629,7 +641,7 @@ def pairwise(iterable: Iterable[T]) -> Iterator[Tuple[T, T]]:  # from itertools 
     return zip(a, b)
 
 
-hyphenation_dictionary = pyphen.Pyphen(lang='nl', left=1, right=1)
+hyphenation_dictionary = pyphen.Pyphen(lang="nl", left=1, right=1)
 
 
 def split_into_syllables(word: str) -> List[Syllable]:
@@ -643,12 +655,13 @@ def split_into_syllables(word: str) -> List[Syllable]:
     # Build syllable instances containing all data and context around them.
     syllables = [
         Syllable(word[start:stop], head=word[:start], tail=word[stop:])
-        for start, stop in pairwise(positions)]
+        for start, stop in pairwise(positions)
+    ]
     for i in range(len(syllables)):
         if i > 0:
-            syllables[i].previous = syllables[i-1]
+            syllables[i].previous = syllables[i - 1]
         if i < len(syllables) - 1:
-            syllables[i].next = syllables[i+1]
+            syllables[i].next = syllables[i + 1]
 
     return syllables
 
@@ -660,7 +673,7 @@ def translate_using_syllables(word: str) -> str:
         translated, n = translate_syllable(syllables[0])
         out.append(translated)
         syllables = syllables[n:]
-    return ''.join(out)
+    return "".join(out)
 
 
 #
@@ -680,21 +693,23 @@ def translate_single_word_token(token: Token) -> Token:
     translated = WORDS.get(token.value_lower)
     if translated is None:
         translated = translate_using_syllables(token.value_lower)
-    return Token(recase(translated, token.case), 'word')
+    return Token(recase(translated, token.case), "word")
 
 
 def apply_single_words(tokens: Sequence[Token]) -> List[Token]:
     return [
-        translate_single_word_token(token) if token.type == 'word' else token
-        for token in tokens]
+        translate_single_word_token(token) if token.type == "word" else token
+        for token in tokens
+    ]
 
 
 #
 # Main API
 #
 
+
 def translate(s: str) -> str:
     tokens = list(tokenize(s))
     tokens = apply_contractions(tokens)
     tokens = apply_single_words(tokens)
-    return ''.join(t.value for t in tokens)
+    return "".join(t.value for t in tokens)

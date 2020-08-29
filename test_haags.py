@@ -13,33 +13,33 @@ import haags
 
 def read_sample_file(fp: typing.TextIO) -> List[Tuple[str, str]]:
     lines = (line.strip() for line in fp)
-    lines = (line for line in lines if line and not line.startswith('#'))
+    lines = (line for line in lines if line and not line.startswith("#"))
     pairs = []
     for line in lines:
-        a, b = line.split('/')
+        a, b = line.split("/")
         pairs.append((a.strip(), b.strip()))
     return pairs
 
 
 def test_letter_case() -> None:
-    assert haags.detect_case('lekker') == 'lower'
-    assert haags.detect_case('LEKKER') == 'upper'
-    assert haags.detect_case('Haags') == 'sentence'
-    assert haags.detect_case('IJsland is mooi') == 'sentence'
-    assert haags.detect_case('Dit Is Niet Gangbaar.') == 'title'
-    assert haags.detect_case('IJsland Title Case IJsland.') == 'title'
-    assert haags.detect_case('BrEeZâH') == 'other'
+    assert haags.detect_case("lekker") == "lower"
+    assert haags.detect_case("LEKKER") == "upper"
+    assert haags.detect_case("Haags") == "sentence"
+    assert haags.detect_case("IJsland is mooi") == "sentence"
+    assert haags.detect_case("Dit Is Niet Gangbaar.") == "title"
+    assert haags.detect_case("IJsland Title Case IJsland.") == "title"
+    assert haags.detect_case("BrEeZâH") == "other"
 
-    assert haags.recase('lekker', 'upper') == 'LEKKER'
-    assert haags.recase('lekKER', 'lower') == 'lekker'
-    assert haags.recase('ijsland', 'title') == 'IJsland'
+    assert haags.recase("lekker", "upper") == "LEKKER"
+    assert haags.recase("lekKER", "lower") == "lekker"
+    assert haags.recase("ijsland", "title") == "IJsland"
 
 
 def test_tokenize() -> None:
     input = "'t duurde 3,14 lange,    bange dagen."
     tokens = list(haags.tokenize(input))
     pprint(tokens)
-    assert ''.join(t.value for t in tokens) == input
+    assert "".join(t.value for t in tokens) == input
     assert len(tokens) == 13
     assert tokens[0].value == "'t"
     assert tokens[1].type == "whitespace"
@@ -50,8 +50,8 @@ def test_tokenize() -> None:
     assert tokens[7].type == "punctuation"
 
     input = (
-        "De informatie is te vinden op "
-        "http://example.org/een/of/andere/pagina.html.")
+        "De informatie is te vinden op http://example.org/een/of/andere/pagina.html."
+    )
     pprint(list(haags.tokenize(input)))
 
 
@@ -74,11 +74,11 @@ def test_contraction() -> None:
     assert translated == expected
 
 
-with open('samples.txt') as fp:
+with open("samples.txt") as fp:
     pairs = read_sample_file(fp)
 
 
-@pytest.mark.parametrize('dutch,expected', pairs)
+@pytest.mark.parametrize("dutch,expected", pairs)
 def test_translation(dutch: str, expected: str) -> None:
     actual = haags.translate(dutch)
     print()
