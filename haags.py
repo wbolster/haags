@@ -583,6 +583,7 @@ def translate_syllable(syl: Syllable) -> Tuple[str, int]:
     # - uitgang -eer wordt -eâh
     # TODO: coda.startswith('r'), e.g. barst (bagst)
     if syl.coda.startswith("r"):
+        r_codas = ("r", "rt", "rs", "rst")
         if syl.rime == "ar":
             # e.g. bar (bâh)
             nucleus = "âh"
@@ -590,23 +591,25 @@ def translate_syllable(syl: Syllable) -> Tuple[str, int]:
         elif syl.rime == "aar":
             # e.g. naar (naah)
             coda = "h"
-        elif syl.nucleus == "oo" and syl.coda.startswith("r"):
+        elif syl.nucleus == "oo":
             # e.g. door (doâh)
-            nucleus = "o"
-            coda = "âh" + syl.coda[1:]
-        elif syl.rime == "eer":
-            nucleus = "e"
-            coda = "âh"
-        elif syl.rime == "ier":
-            nucleus = "ie"
-            coda = "âh"
-        elif syl.rime == "uur":
-            nucleus = "u"
-            coda = "âh"
-        elif syl.rime == "er":
-            pass  # TODO
-        elif coda == "r":
-            coda = "âh"
+            nucleus = "oâh"
+            coda = syl.coda.lstrip("r")
+        elif syl.nucleus == "ee" and syl.coda in r_codas:
+            nucleus = "eâh"
+            coda = syl.coda.lstrip("r")
+        elif syl.nucleus == "ie" and syl.coda in r_codas:
+            nucleus = "ieâh"
+            coda = syl.coda.lstrip("r")
+        elif syl.nucleus == "uu" and syl.coda in r_codas:
+            nucleus = "uâh"
+            coda = syl.coda.lstrip("r")
+        elif syl.nucleus == "e" and syl.coda in r_codas:
+            # e.g. lekker (lekkâh), weigert (wègâht), lekkerst (lekkâhst)
+            nucleus = "âh"
+            coda = syl.coda.lstrip("r")
+        # TODO: maybe generalise repeated logic above
+
         # TODO: drop -t
 
     # Lettergrepen eindigend op een vloeiklank (l of r) gevolgd
@@ -710,6 +713,7 @@ def translate_using_syllables(word: str) -> str:
 WORDS = {
     "aan": "an",
     "een": "'n",
+    "er": "'r",
     "even": "effe",
     "heeft": "heb",
     "het": "'t",
