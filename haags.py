@@ -621,6 +621,11 @@ def translate_syllable(syl: Syllable) -> Tuple[str, int]:
             # e.g. sterkte (sterrekte)
             coda = syl.coda[0] + syl.coda[0] + "e" + syl.coda[1:]
 
+    # -md wordt -mp
+    if syl.coda == "md":
+        # e.g. geruimd (gerùimp)
+        coda = "mp"
+
     # Suffixes
     if syl.head:
 

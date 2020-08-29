@@ -214,6 +214,10 @@ aapmens / aapmens
 wapens / wapes
 kussens / kusses
 
+# - md
+geruimd / gerùimp
+
+
 #
 # extra lettergreep voor -l + medeklinker en -r + medeklinker
 #
