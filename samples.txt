@@ -197,6 +197,7 @@ bar / bâh
 meur / meuâh
 goor / goâh
 zuur / zuâh
+duurt / duâht
 bier / bieâh
 
 # -ens
@@ -259,9 +260,12 @@ halte/ halte
 # -lv
 behalve / behalleve
 
-# -rd (?)
-hard / hard
-haard / haard
+# -rd
+hard / hagt
+keihard / kèhagt
+# baard (?)
+baard / baahd
+haard / haagd
 
 # -rf
 nerf / nerruf
@@ -301,6 +305,9 @@ hart / hagt
 scheurt / scheâht
 viert / vieâht
 
+# -rst
+gierst / gieâhst
+
 # -rv
 reserve / reserreve
 
@@ -323,7 +330,11 @@ murw / murw
 
 # -er wordt -âh
 lekker / lekkâh
+lekkers / lekkâhs
+lekkerst / lekkâhst
 kabouter / kabâhtâh
+weigert / wègâht
+er / 'r
 
 # -ig wordt -ag
 machtig / machtag
@@ -332,6 +343,7 @@ rustig / rustag
 
 # -eer wordt -eâh
 zweer / zweâh
+zweert / zweâht
 meneer / meneâh
 meneertje / meneâhtsje
 weer / weâh
@@ -440,3 +452,6 @@ justitie / justisie
 justitiepaleis / justisiepalès
 justitiële / justisjeile
 justitioneel / justisiauneil
+
+
+baby / beibie
