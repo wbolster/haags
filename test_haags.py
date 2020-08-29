@@ -2,14 +2,16 @@
 Test module.
 """
 
+import typing
 from pprint import pprint
+from typing import List, Tuple
 
 import pytest
 
 import haags
 
 
-def read_sample_file(fp):
+def read_sample_file(fp: typing.TextIO) -> List[Tuple[str, str]]:
     lines = (line.strip() for line in fp)
     lines = (line for line in lines if line and not line.startswith('#'))
     pairs = []
@@ -19,7 +21,7 @@ def read_sample_file(fp):
     return pairs
 
 
-def test_letter_case():
+def test_letter_case() -> None:
     assert haags.detect_case('lekker') == 'lower'
     assert haags.detect_case('LEKKER') == 'upper'
     assert haags.detect_case('Haags') == 'sentence'
@@ -33,7 +35,7 @@ def test_letter_case():
     assert haags.recase('ijsland', 'title') == 'IJsland'
 
 
-def test_tokenize():
+def test_tokenize() -> None:
     input = "'t duurde 3,14 lange,    bange dagen."
     tokens = list(haags.tokenize(input))
     pprint(tokens)
@@ -53,7 +55,7 @@ def test_tokenize():
     pprint(list(haags.tokenize(input)))
 
 
-def test_contraction():
+def test_contraction() -> None:
     input = """
         Ken ik jou?
         Ik dacht het niet.
@@ -77,7 +79,7 @@ with open('samples.txt') as fp:
 
 
 @pytest.mark.parametrize('dutch,expected', pairs)
-def test_translation(dutch, expected):
+def test_translation(dutch: str, expected: str) -> None:
     actual = haags.translate(dutch)
     print()
     print(dutch)

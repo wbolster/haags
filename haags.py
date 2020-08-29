@@ -632,7 +632,7 @@ def pairwise(iterable: Iterable[T]) -> Iterator[Tuple[T, T]]:  # from itertools 
 hyphenation_dictionary = pyphen.Pyphen(lang='nl', left=1, right=1)
 
 
-def split_into_syllables(word):
+def split_into_syllables(word: str) -> List[Syllable]:
     # The (naive) assumption here is that hyphenation is the same as
     # syllable splitting. First obtain the split points.
     positions = [0]
@@ -653,7 +653,7 @@ def split_into_syllables(word):
     return syllables
 
 
-def translate_using_syllables(word):
+def translate_using_syllables(word: str) -> str:
     syllables = split_into_syllables(word)
     out = []
     while syllables:
@@ -676,14 +676,14 @@ WORDS = {
 }
 
 
-def translate_single_word_token(token):
+def translate_single_word_token(token: Token) -> Token:
     translated = WORDS.get(token.value_lower)
     if translated is None:
         translated = translate_using_syllables(token.value_lower)
     return Token(recase(translated, token.case), 'word')
 
 
-def apply_single_words(tokens):
+def apply_single_words(tokens: Sequence[Token]) -> List[Token]:
     return [
         translate_single_word_token(token) if token.type == 'word' else token
         for token in tokens]
@@ -693,7 +693,7 @@ def apply_single_words(tokens):
 # Main API
 #
 
-def translate(s):
+def translate(s: str) -> str:
     tokens = list(tokenize(s))
     tokens = apply_contractions(tokens)
     tokens = apply_single_words(tokens)
