@@ -712,6 +712,7 @@ def translate_using_syllables(word: str) -> str:
 
 WORDS = {
     "aan": "an",
+    "baby": "beibie",
     "een": "'n",
     "er": "'r",
     "even": "effe",
