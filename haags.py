@@ -561,6 +561,17 @@ def translate_syllable(syl: Syllable) -> Tuple[str, int]:
     if syl.coda == "c":
         coda = "k"
 
+    # -ti- en -tie worden -si- en -sie na een open lettergreep.
+    if syl.previous and not syl.previous.coda:
+        if syl.value == "ti":
+            # e.g. justitioneel (justisiauneil)
+            onset = "s"
+            nucleus = "i"
+        elif syl.value == "tie":
+            # e.g. politie (poliesie)
+            onset = "s"
+            nucleus = "ie"
+
     # - TODO de r na een korte klank wordt een g
     # - de r na een lange a wordt een h
     # - na overige klanken wordt de r een âh
