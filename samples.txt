@@ -98,6 +98,10 @@ kleur / kleuâh
 scheur / scheuâh
 # kleuren / kleure (?)
 
+# oe
+voer / voeâh
+hoer / hoeâh
+
 # lange e wordt ei
 heet / heit
 hete / heite
