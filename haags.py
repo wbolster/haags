@@ -3,25 +3,29 @@
 import collections
 import itertools
 import re
+import typing
+from typing import Dict, Iterable, Iterator, List, Sequence, Tuple, TypeVar
 
 import attr
 import pyphen
+
+T = TypeVar('T')
 
 
 #
 # Letter case
 #
 
-def apply_case_hack(s):
+def apply_case_hack(s: str) -> str:
     # Hacky unicode 'ij' ligature
     return s.replace('ij', 'ĳ').replace('IJ', 'Ĳ')
 
 
-def undo_case_hack(s):
+def undo_case_hack(s: str) -> str:
     return s.replace('ĳ', 'ij').replace('Ĳ', 'IJ')
 
 
-def detect_case(s):
+def detect_case(s: str) -> str:
     s = apply_case_hack(s)
     if not s:
         case = 'other'
@@ -38,7 +42,7 @@ def detect_case(s):
     return case
 
 
-def recase(s, case):
+def recase(s: str, case: str) -> str:
     """Change letter case of a string."""
     s = apply_case_hack(s)
     if case == 'lower':
@@ -77,7 +81,7 @@ PUNCTUATION_CHARS = (
 PUNCTUATION_RE = re.compile(r'([{}]+)'.format(re.escape(PUNCTUATION_CHARS)))
 
 
-def is_regular_word(s):
+def is_regular_word(s: str) -> bool:
     if s in {"'t", "'n"}:
         return True
     return s.isalpha()
@@ -99,7 +103,7 @@ class Token():
     case = attr.ib(repr=False)
     value_lower = attr.ib(repr=False)
 
-    def __init__(self, value, type):
+    def __init__(self, value: str, type: str) -> None:
         self.value = value
         self.value_lower = value.lower()
         assert type in self.TYPES
@@ -110,7 +114,7 @@ class Token():
 WHITESPACE_TOKEN = Token(' ', 'whitespace')
 
 
-def tokenize(s):
+def tokenize(s: str) -> Iterator[Token]:
     regexes_with_token_types = [  # This is an ordered list.
         (WHITESPACE_RE, 'whitespace'),
         (NUMBER_RE, 'number'),
@@ -193,13 +197,15 @@ ALL_CONTRACTIONS = {
     "zal ik": "zallik",
     "zeg het": "zeggut",
 }
-ALL_CONTRACTIONS_BY_SIZE = collections.defaultdict(dict)
+ALL_CONTRACTIONS_BY_SIZE: typing.DefaultDict[
+    int, Dict[str, str]
+] = collections.defaultdict(dict)
 for dutch, haags in ALL_CONTRACTIONS.items():
     key = len(dutch.split())
     ALL_CONTRACTIONS_BY_SIZE[key][dutch] = haags
 
 
-def words_from_tokens(tokens, offset, n):
+def words_from_tokens(tokens: Sequence[Token], offset: int, n: int) -> str:
     """
     Obtain `n` words from `tokens` as a single string, starting at `offset`.
     """
@@ -207,7 +213,9 @@ def words_from_tokens(tokens, offset, n):
     return ' '.join(itertools.islice(g, n))
 
 
-def make_token_type_string(tokens, pad_with_spaces=True):
+def make_token_type_string(
+    tokens: Sequence[Token], pad_with_spaces: bool = True
+) -> str:
     # Make a string with one character per token, which indicates the
     # token type. "Hallo, wereld!" becomes "w, w," (word, punctuation,
     # space, ...).
@@ -223,7 +231,7 @@ def make_token_type_string(tokens, pad_with_spaces=True):
     return s
 
 
-def apply_contractions(tokens):
+def apply_contractions(tokens: Sequence[Token]) -> List[Token]:
     # Contractions are found by looking for patterns in the list of
     # tokens, and comparing these against lookup tables. For example,
     # "word space word space word" is a candidate a 3 word contraction.
@@ -231,7 +239,7 @@ def apply_contractions(tokens):
     # string containing the token types, so that regular expressions can
     # be used for matching.
 
-    tokens = tokens.copy()
+    tokens = list(tokens)
 
     # Add whitespace tokens at the beginning and end for easier
     # matching. This means there is no special casing for matching at
@@ -336,7 +344,7 @@ class Syllable():
     previous = attr.ib(default=None, repr=False, hash=False)
     next = attr.ib(default=None, repr=False, hash=False)
 
-    def __init__(self, value, *, head, tail):
+    def __init__(self, value: str, *, head: str, tail: str) -> None:
         self.value = value
         self.head = head
         self.tail = tail
@@ -369,7 +377,7 @@ SYLLABLES = {
 }
 
 
-def translate_syllable(syl):
+def translate_syllable(syl: Syllable) -> Tuple[str, int]:
     translated = SYLLABLES.get(syl.value)
     if translated is not None:
         return translated, 1
@@ -615,7 +623,7 @@ def translate_syllable(syl):
     return onset + nucleus + coda, 1
 
 
-def pairwise(iterable):  # from itertools recipes
+def pairwise(iterable: Iterable[T]) -> Iterator[Tuple[T, T]]:  # from itertools recipes
     a, b = itertools.tee(iterable)
     next(b, None)
     return zip(a, b)
