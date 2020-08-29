@@ -51,6 +51,7 @@ berooid / berauid
 klootviool / klautviaul
 voor / voâh
 koorts / koâhts
+soort / soâht
 opera / aupera
 koper / kaupâh
 zone / zaune
@@ -220,6 +221,7 @@ wapens / wapes
 kussens / kusses
 
 # - md
+gestemd / gestemp
 geruimd / gerùimp
 
 
@@ -306,6 +308,9 @@ viert / vieâht
 
 # -rst
 gierst / gieâhst
+
+# -rts
+voorts / voâhts
 
 # -rv
 reserve / reserreve
