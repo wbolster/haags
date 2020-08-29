@@ -441,6 +441,10 @@ def translate_syllable(syl: Syllable) -> Tuple[str, int]:
         nucleus = "au"
     elif syl.nucleus == "o" and syl.open:
         nucleus = "au"
+    elif syl.nucleus == "zô":  # pythen oddity
+        # e.g. zône (zaune)
+        onset = "z"
+        nucleus = "au"
     elif syl.nucleus in ("ooi", "ooie"):  # pyphen oddity
         nucleus = "au" + syl.nucleus[2:]
 

@@ -43,7 +43,7 @@ dergelijks / dergelijks
 blije / blèje
 talrijkst / talrèks
 
-# lange o/oo
+# lange o/oo/ô
 groot / graut
 grote / graute
 mooi  / maui
@@ -54,6 +54,7 @@ voor / voâh
 koorts / koâhts
 opera / aupera
 koper / kaupâh
+zône / zaune
 
 # au/ou/ouw/auw
 jou / jâh
