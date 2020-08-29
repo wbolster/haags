@@ -82,7 +82,7 @@ PUNCTUATION_CHARS = "".join(
         "&/",  # misc
     ]
 )
-PUNCTUATION_RE = re.compile(r'([{}]+)'.format(re.escape(PUNCTUATION_CHARS)))
+PUNCTUATION_RE = re.compile(r"([{}]+)".format(re.escape(PUNCTUATION_CHARS)))
 
 
 def is_regular_word(s: str) -> bool:
