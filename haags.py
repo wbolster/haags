@@ -631,10 +631,10 @@ def translate_syllable(syl: Syllable) -> Tuple[str, int]:
         # e.g. geruimd (gerùimp)
         coda = "mp"
 
-    # Suffixes
+    # Suffixes (uitgangen)
     if syl.head:
 
-        # Uitgang -ens wordt meestal -es.
+        # -ens wordt meestal -es.
         if syl.rime == "ens":
             if syl.onset in ("g", "k", "t", "v"):
                 # e.g. volgens (volges), tekens (teikes), gewetens
@@ -654,7 +654,7 @@ def translate_syllable(syl: Syllable) -> Tuple[str, int]:
             # TODO: -sens kussens
             # TODO: meer -ens
 
-        # Uitgang -en wordt -e of -ûh (aan einde zin).
+        # -en wordt -e of -ûh (aan einde zin).
         # TODO
         elif syl.rime == "en":
             coda = ""
