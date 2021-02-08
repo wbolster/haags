@@ -394,7 +394,7 @@ beestje / beissie
 
 # verkleinwoorden op -tje mogen een tussen s; hoeft niet
 pilletjes / pilletsjes
-gabbâhtsje / gabbertje
+gabbertje / gabbâhtsje
 broertje / broeâhtsje
 
 
